@@ -1,12 +1,23 @@
 import csv
+from package import Package
+from hash_table import HashTable
+
+package_hash = HashTable(capacity=41)
 
 with open('data\packages.csv') as csv_file:
-    csv_reader = csv.reader(csv_file, delimiter=',')
-    line_count = 0
+    csv_reader = csv.reader(csv_file)
+    next(csv_reader) #skip header row
     for row in csv_reader:
-        if line_count == 0:
-            print(f'Column names are {", ".join(row)}')
-            line_count += 1
-        else:
-            print(f'{row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7]}')
-            
+        package_id = int(row[0])
+        address = row[1]
+        city = row[2]
+        state = row[3]
+        zip = row[4]
+        delivery_deadline = row[5]
+        weight = row[6]
+        notes = row[7]
+
+        working_package = Package(package_id, address, city, state, zip, delivery_deadline, weight, notes)
+        package_hash[package_id] = working_package
+
+print(package_hash[15])
