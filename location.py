@@ -1,35 +1,26 @@
 import csv
-from hash_table import HashTable
 
-class Location:
-    def __init__(self, address):
-        self.address = address
+location_file = open('data/location.csv', 'r')
+location_data = list(csv.reader(location_file, delimiter=','))
+location_file.close
+
+distance_file = open('data/distance.csv', 'r')
+distance_data = list(csv.reader(distance_file, delimiter=','))
+distance_file.close
 
 
-    @classmethod
-    def build_distance_and_location_hash(cls, location_file_path, distance_file_path):
-        index = 0
-        with open(distance_file_path) as distance_csv:
-            distance_csv = list(csv.reader(distance_csv))
-        location_hash = HashTable(capacity=27)
-        with open(location_file_path) as location_csv:
-            location_csv_reader = csv.reader(location_csv)
-            next(location_csv_reader) #skip header
-            for row in location_csv_reader:
-                address = row[1]
-                cls.distances_from_indexed_location(index, distance_csv)
-                location = cls(address)
-                location_hash [index] = location
-                index += 1
-        return location_hash
-    
-    @staticmethod
-    def distances_from_indexed_location(index, distance_list):
-        target_index = 0
-        #for loop to iterate throuhg all indexes
-        #create and write to list/touple/hash?
-        distance = distance_list[index][target_index]
-        if distance == ',':
-            distance = distance_list[target_index][index]
-        
-        pass
+start_address = '1060 Dalton Ave S (84104)'
+end_address = "195 W Oakland Ave (84115)"
+
+for x in range(len(location_data)):
+    if location_data[x][1] == start_address:
+        start_index = x
+    if location_data[x][1] == end_address:
+        end_index = x
+
+if distance_data[start_index][end_index] == '':
+    distance = distance_data[end_index][start_index]
+else:
+    distance = distance_data[start_index][end_index]
+
+print(distance)
