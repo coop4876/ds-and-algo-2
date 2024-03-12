@@ -1,9 +1,20 @@
 from package import Package
+from location import Location
 from hash_table import HashTable
-from csv_reader import package_hash_from_csv
 
-package_hash = package_hash_from_csv('data\packages.csv')
+package_location = 'data\packages.csv'
 
-print(package_hash[1].package_id)
+l1 = Location("HUB")
+l2 = Location("1060 Dalton Ave S (84104)")
 
-print(package_hash[2].deadline)
+print(l1.address)
+print(l2.address)
+
+
+
+# package_hash = Package.build_package_hash_from_csv(package_location)
+
+
+# print(package_hash[0].address)
+
+# print(package_hash[1].address)
