@@ -21,7 +21,7 @@ class Package:
             next(csv_reader) #skip header row
             for row in csv_reader:
                 package_id = int(row[0]) - 1
-                address = row[1]
+                address = row[1] + ' (' + row[4] + ')'
                 city = row[2]
                 state = row[3]
                 zip = row[4]

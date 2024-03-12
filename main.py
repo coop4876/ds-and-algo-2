@@ -1,6 +1,5 @@
 from package import Package
 
-package_file = 'data/packages.csv'
 package_hash = Package.build_package_hash_from_csv()
 
 # print(package_hash[0].address)
@@ -11,4 +10,4 @@ package_hash = Package.build_package_hash_from_csv()
 
 
 for x in range(len(package_hash)):
-    print(package_hash[x].address + ' ' + package_hash[x].zip)
+    print(package_hash[x].address)
