@@ -1,10 +1,7 @@
 from package import Package
 
 package_file = 'data/packages.csv'
-location_file = 'data/location.csv'
-distance_file = 'data/distance.csv'
-
-package_hash = Package.build_package_hash_from_csv(package_file)
+package_hash = Package.build_package_hash_from_csv()
 
 # print(package_hash[0].address)
 # print(location_hash[0].address)

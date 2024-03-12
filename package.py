@@ -13,10 +13,10 @@ class Package:
         self.notes = notes
 
     @classmethod
-    def build_package_hash_from_csv(cls, file_path):
+    def build_package_hash_from_csv(cls):
         package_hash = HashTable(capacity=40)
 
-        with open(file_path) as csv_file:
+        with open('data/packages.csv') as csv_file:
             csv_reader = csv.reader(csv_file)
             next(csv_reader) #skip header row
             for row in csv_reader:
