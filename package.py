@@ -16,7 +16,7 @@ class Package:
     def build_package_hash_from_csv(cls):
         package_hash = HashTable(capacity=40)
 
-        with open('data/packages.csv') as csv_file:
+        with open('data/packages.csv', 'r') as csv_file:
             csv_reader = csv.reader(csv_file)
             next(csv_reader) #skip header row
             for row in csv_reader:
@@ -33,3 +33,6 @@ class Package:
                 package_hash[package_id] = package
 
         return package_hash
+    
+    def get_closest_next_package(self, current_location):
+        pass

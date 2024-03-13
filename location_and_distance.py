@@ -1,7 +1,7 @@
 import csv
 
 
-class DataLoader:
+class LocationAndDistanceLoader:
     def __init__(self, location_file_path, distance_file_path):
         self.location_file_path = location_file_path
         self.distance_file_path = distance_file_path
@@ -9,7 +9,7 @@ class DataLoader:
         self.distance_data = None
         
 
-    def load_data(self):
+    def load_location_and_distance(self):
         with open(self.location_file_path, 'r') as location_file:
             self.location_data = list(csv.reader(location_file, delimiter=','))
 
