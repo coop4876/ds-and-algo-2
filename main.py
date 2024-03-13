@@ -13,7 +13,7 @@ data_loader.load_location_and_distance()
 #initialize DistanceCalculator
 distance_calculator = DistanceCalculator(data_loader.location_data, data_loader.distance_data)
 
-#build hash table of all pending packages
+#build hash table of all undelivered packages
 package_hash = Package.build_package_hash_from_csv(package_file_path)
 
 
