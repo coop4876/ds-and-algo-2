@@ -10,19 +10,11 @@ class DataLoader:
         
 
     def load_data(self):
-        # with open(self.location_file_path, 'r') as location_file:
-        #     self.location_data = list(csv.reader(location_file, delimiter=','))
+        with open(self.location_file_path, 'r') as location_file:
+            self.location_data = list(csv.reader(location_file, delimiter=','))
 
-        # with open(self.distance_file_path, 'r') as distance_file:
-        #     self.distance_data = list(csv.reader(distance_file, delimiter=','))
-        location_file = open(self.location_file_path, 'r')
-        self.location_data = list(csv.reader(location_file, delimiter=','))
-        location_file.close
-
-        distance_file = open(self.distance_file_path, 'r')
-        self.distance_data = list(csv.reader(distance_file, delimiter=','))
-        distance_file.close
-
+        with open(self.distance_file_path, 'r') as distance_file:
+            self.distance_data = list(csv.reader(distance_file, delimiter=','))
 
 class DistanceCalculator:
     def __init__(self, location_data, distance_data):
