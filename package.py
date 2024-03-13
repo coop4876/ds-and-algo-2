@@ -36,3 +36,41 @@ class Package:
     
     def get_closest_next_package(self, current_location):
         pass
+
+#modify build_package_hash_from_csv to function as an undelivered list?
+#move from undelivered to truck to delivered?
+    
+class Warehouse:
+    def __init__():
+        pass
+
+    def build_undelivered_package_hash():
+        pass
+
+
+class Truck:
+    #load 16 packages onto turck
+    #keep track of delivery times
+    #move package to delivered, update status
+    #print current status
+    #list?
+    def __init__():
+        pass
+
+    def load_truck():
+        pass
+
+    def make_deliveries():
+        pass
+
+class DeliveredPackages:
+    #keep track of completed deliveries with times
+    #print completed package details
+    #list?
+    def __init__():
+        pass
+
+    def add_to_delivered():
+        pass
+
+
