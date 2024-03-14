@@ -18,7 +18,10 @@ class Package:
         self.distance_to_next_location = 0
 
     def __str__(self):
-        print_string = 'package ID: ' + str(self.package_id) + '| package status: ' + str(self.status)
+        print_string = 'package ID: ' + str(self.package_id) \
+            + ' | package status: ' + str(self.status) \
+            + ' | delivery address: ' + str(self.address) \
+            + ' | distance to next location: ' + str(self.distance_to_next_location)
         return print_string
 
 class Warehouse:
@@ -46,8 +49,6 @@ class Warehouse:
 
         return self.undelivered_package_hash
     
-    def get_closest_next_package(self, current_location):
-        pass
 
     def load_truck(self):
         #todo get closest package index for next package to load
@@ -61,6 +62,11 @@ class Warehouse:
             else:
                 break
         return self.out_for_delivery_packages
+    
+    def efficient_load_truck(self):
+        truck_capacity = 16
+        while truck_capacity > 0:
+            pass
 
 class Truck:
     def __init__(self):

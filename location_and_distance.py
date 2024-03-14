@@ -1,4 +1,5 @@
 import csv
+import sys
 
 
 class LocationAndDistanceLoader:
@@ -33,10 +34,23 @@ class DistanceCalculator:
         if self.distance_data[start_index][end_index] == '':
             distance = self.distance_data[end_index][start_index]
         else:
-            distance = self.distance_data[start_index[end_index]]
+            distance = self.distance_data[start_index][end_index]
 
-        return distance
+        return float(distance)
     
+    def get_next_package(self, undelivered_packages, start_location):
+        distance = 1000
+        index = 0
+        while index < (len(undelivered_packages) - 1):
+            end_location = undelivered_packages[index].address
+            test_distance = self.get_distance(start_location, end_location)
+            if test_distance < distance:
+                next_package = undelivered_packages[index]
+                distance = test_distance
+            index += 1
+            next_package.distance_to_next_location = distance
+        return next_package
+
 
     def time_distance_calculator(self, distance_traveled):
         #todo check conversion rate

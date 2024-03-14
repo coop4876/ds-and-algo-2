@@ -19,53 +19,47 @@ warehouse = Warehouse()
 warehouse.build_undelivered_package_hash_table(package_file_path)
 
 
+print(distance_calculator.get_next_package(warehouse.undelivered_package_hash, "HUB"))
 
 
-
-start_address = '1060 Dalton Ave S (84104)'
-end_address = '195 W Oakland Ave (84115)'
-
-
-
+# start_address = 'HUB'
+# end_address = '195 W Oakland Ave (84115)'
 # distance = distance_calculator.get_distance(start_address, end_address)
 
-# # #print all package addresses
-# print('*****************undelivered packages')
-# for package in warehouse.undelivered_package_hash:
-#     print(warehouse.undelivered_package_hash[package])
 
-index = 0
-while index < len(warehouse.undelivered_package_hash):
-    if warehouse.undelivered_package_hash[index] != None:
-        print(warehouse.undelivered_package_hash[index])
-    index += 1
 
-truck_1 = Truck()
-truck_1.current_deliveries = warehouse.load_truck()
+# index = 0
+# while index < len(warehouse.undelivered_package_hash):
+#     if warehouse.undelivered_package_hash[index] != None:
+#         print(warehouse.undelivered_package_hash[index])
+#     index += 1
 
-truck_2 = Truck()
-truck_2.current_deliveries = warehouse.load_truck()
+# truck_1 = Truck()
+# truck_1.current_deliveries = warehouse.load_truck()
 
-print("**********packages on truck_1")
-index = 0
-while index < len(truck_1.current_deliveries):
-    print(truck_1.current_deliveries[index])
-    index += 1
-
-print("**********packages on truck_2")
-index = 0
-while index < len(truck_2.current_deliveries):
-    print(truck_2.current_deliveries[index])
-    index += 1
-
-print("**********packages in warehouse")
-index = 0
-while index < len(warehouse.undelivered_package_hash):
-    if warehouse.undelivered_package_hash[index] != None:
-        print(warehouse.undelivered_package_hash[index])
-    index += 1
-
+# truck_2 = Truck()
+# # truck_2.current_deliveries = warehouse.load_truck()
 
 # print("**********packages on truck_1")
-# for package in truck_1.current_deliveries:
-#     print(truck_1.current_deliveries[package])
+# index = 0
+# while index < len(truck_1.current_deliveries):
+#     print(truck_1.current_deliveries[index])
+#     index += 1
+
+# print("**********packages on truck_2")
+# index = 0
+# while index < len(truck_2.current_deliveries):
+#     print(truck_2.current_deliveries[index])
+#     index += 1
+
+# print("**********packages in warehouse")
+# index = 0
+# while index < len(warehouse.undelivered_package_hash):
+#     if warehouse.undelivered_package_hash[index] != None:
+#         print(warehouse.undelivered_package_hash[index])
+#     index += 1
+
+
+# # print("**********packages on truck_1")
+# # for package in truck_1.current_deliveries:
+# #     print(truck_1.current_deliveries[package])
