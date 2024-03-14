@@ -16,8 +16,8 @@ class HashTable:
 
     def __getitem__(self, key):
         value = self.values[self._index(key)]
-        if value is None:
-            raise KeyError(key)
+        # if value is None:
+        #     raise KeyError(key)
         return value
 
     def __contains__(self, key):
@@ -30,7 +30,7 @@ class HashTable:
         
     def __iter__(self):
         for value in self.values:
-            if value is not None:
+            if value is not [None]:
                 yield value
 
     def get(self, key, default=None):

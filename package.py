@@ -17,6 +17,10 @@ class Package:
         self.delivery_time = "N/A"
         self.distance_to_next_location = 0
 
+    def __str__(self):
+        print_string = 'package ID: ' + str(self.package_id) + '| package status: ' + str(self.status)
+        return print_string
+
 class Warehouse:
     def __init__(self):
         self.undelivered_package_hash = HashTable(capacity=40)
@@ -28,7 +32,7 @@ class Warehouse:
             csv_reader = csv.reader(package_file)
             next(csv_reader) #skip header row
             for row in csv_reader:
-                package_id = int(row[0]) - 1
+                package_id = int(row[0]) 
                 address = row[1] + ' (' + row[4] + ')'
                 city = row[2]
                 state = row[3]
@@ -38,7 +42,7 @@ class Warehouse:
                 notes = row[7]
 
                 package = Package(package_id, address, city, state, zip, delivery_deadline, weight, notes)
-                self.undelivered_package_hash[package_id] = package
+                self.undelivered_package_hash[package_id - 1] = package
 
         return self.undelivered_package_hash
     
@@ -59,10 +63,10 @@ class Warehouse:
         return self.out_for_delivery_packages
 
 class Truck:
-    def __init__(self, current_deliveries):
+    def __init__(self):
         #todo add current_time property
         self.total_milage = 0
-        self.current_deliveries = current_deliveries
+        self.current_deliveries = HashTable(capacity=16)
 
     def make_deliveries(self):
         #todo move to delivered hash table

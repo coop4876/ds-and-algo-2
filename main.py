@@ -22,22 +22,50 @@ warehouse.build_undelivered_package_hash_table(package_file_path)
 
 
 
-
 start_address = '1060 Dalton Ave S (84104)'
 end_address = '195 W Oakland Ave (84115)'
 
-distance = distance_calculator.get_distance(start_address, end_address)
 
 
-print(distance)
+# distance = distance_calculator.get_distance(start_address, end_address)
 
-# #print all package addresses
+# # #print all package addresses
 # print('*****************undelivered packages')
 # for package in warehouse.undelivered_package_hash:
-#     print(warehouse.undelivered_package_hash[package].address)
+#     print(warehouse.undelivered_package_hash[package])
 
-truck_1 = Truck(warehouse.load_truck())
+index = 0
+while index < len(warehouse.undelivered_package_hash):
+    if warehouse.undelivered_package_hash[index] != None:
+        print(warehouse.undelivered_package_hash[index])
+    index += 1
+
+truck_1 = Truck()
+truck_1.current_deliveries = warehouse.load_truck()
+
+truck_2 = Truck()
+truck_2.current_deliveries = warehouse.load_truck()
 
 print("**********packages on truck_1")
-for package in truck_1.current_deliveries:
-    print(truck_1.current_deliveries[package].delivery_time)
+index = 0
+while index < len(truck_1.current_deliveries):
+    print(truck_1.current_deliveries[index])
+    index += 1
+
+print("**********packages on truck_2")
+index = 0
+while index < len(truck_2.current_deliveries):
+    print(truck_2.current_deliveries[index])
+    index += 1
+
+print("**********packages in warehouse")
+index = 0
+while index < len(warehouse.undelivered_package_hash):
+    if warehouse.undelivered_package_hash[index] != None:
+        print(warehouse.undelivered_package_hash[index])
+    index += 1
+
+
+# print("**********packages on truck_1")
+# for package in truck_1.current_deliveries:
+#     print(truck_1.current_deliveries[package])
