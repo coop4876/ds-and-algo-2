@@ -1,26 +1,26 @@
 import csv
 from hash_table import HashTable
+from location_and_distance import DistanceCalculator
 
 class Package:
-    def __init__(self,package_id, address, city, state, zip, deadline, weight, notes=""):
+    #todo add distance_to_next_loc property for easier tracking?
+    def __init__(self,package_id, address, city, state, zip_code, deadline, weight, notes="", status = "In Warehouse", delivery_time = "N/A"):
         self.package_id = package_id
         self.address = address
         self.city = city
         self.state = state
-        self.zip = zip
+        self.zip = zip_code
         self.deadline = deadline
         self.weight = weight
         self.notes = notes
+        self.status = status
+        self.delivery_time = delivery_time
 
-    def get_closest_next_package(self, current_location):
-        pass
-
-#modify build_package_hash_from_csv to function as an undelivered list?
-#move from undelivered to truck to delivered?
-    
 class Warehouse:
     def __init__(self):
         self.undelivered_package_hash = HashTable(capacity=40)
+        self.out_for_delivery_packages = HashTable(capacity=16)
+        self.delivered_packages = HashTable(capacity=40)
 
     def build_undelivered_package_hash_table(self, package_file_path):
         with open(package_file_path, 'r') as package_file:
@@ -40,31 +40,43 @@ class Warehouse:
                 self.undelivered_package_hash[package_id] = package
 
         return self.undelivered_package_hash
+    
+    def get_closest_next_package(self, current_location):
+        pass
 
+    def load_truck(self):
+        #todo get closest package index for next package to load
+        index = 0
+        for package in self.undelivered_package_hash:
+            if index <=15:
+                self.out_for_delivery_packages[index] = package
+                self.out_for_delivery_packages[index].status = "OutForDelivery"
+                del self.undelivered_package_hash[index]
+                index += 1
+            else:
+                break
+        return self.out_for_delivery_packages
 
 class Truck:
-    #load 16 packages onto turck
-    #keep track of delivery times
-    #move package to delivered, update status
-    #print current status
-    #list?
-    def __init__():
+    def __init__(self, current_deliveries):
+        #todo add current_time property
+        self.current_deliveries = current_deliveries
+
+    def make_deliveries(self):
+        #todo move to delivered hash table
         pass
 
-    def load_truck():
-        pass
-
-    def make_deliveries():
+    def print_pending_packages(self):
         pass
 
 class DeliveredPackages:
-    #keep track of completed deliveries with times
-    #print completed package details
-    #list?
     def __init__():
         pass
 
     def add_to_delivered():
+        pass
+
+    def print_delivered_packages():
         pass
 
 

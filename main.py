@@ -31,6 +31,13 @@ distance = distance_calculator.get_distance(start_address, end_address)
 
 print(distance)
 
-#print all package addresses
-for x in range(len(warehouse.undelivered_package_hash)):
-    print(warehouse.undelivered_package_hash[x].address)
+# #print all package addresses
+# print('*****************undelivered packages')
+# for package in warehouse.undelivered_package_hash:
+#     print(warehouse.undelivered_package_hash[package].address)
+
+truck_1 = Truck(warehouse.load_truck())
+
+print("**********packages on truck_1")
+for package in truck_1.current_deliveries:
+    print(truck_1.current_deliveries[package].address)

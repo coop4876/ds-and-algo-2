@@ -27,6 +27,11 @@ class HashTable:
             return False
         else:
             return True
+        
+    def __iter__(self):
+        for value in self.values:
+            if value is not None:
+                yield value
 
     def get(self, key, default=None):
         try:
