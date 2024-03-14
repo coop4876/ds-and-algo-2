@@ -36,3 +36,9 @@ class DistanceCalculator:
             distance = self.distance_data[start_index[end_index]]
 
         return distance
+    
+
+    def time_distance_calculator(self, distance_traveled):
+        #todo check conversion rate
+        time_passed = distance_traveled / 18 * 60
+        return time_passed

@@ -3,8 +3,7 @@ from hash_table import HashTable
 from location_and_distance import DistanceCalculator
 
 class Package:
-    #todo add distance_to_next_loc property for easier tracking?
-    def __init__(self,package_id, address, city, state, zip_code, deadline, weight, notes="", status = "In Warehouse", delivery_time = "N/A"):
+    def __init__(self,package_id, address, city, state, zip_code, deadline, weight, notes=""):
         self.package_id = package_id
         self.address = address
         self.city = city
@@ -13,8 +12,10 @@ class Package:
         self.deadline = deadline
         self.weight = weight
         self.notes = notes
-        self.status = status
-        self.delivery_time = delivery_time
+        #todo special case for package not yet in warehouse
+        self.status = "In Warehouse"
+        self.delivery_time = "N/A"
+        self.distance_to_next_location = 0
 
 class Warehouse:
     def __init__(self):
@@ -60,6 +61,7 @@ class Warehouse:
 class Truck:
     def __init__(self, current_deliveries):
         #todo add current_time property
+        self.total_milage = 0
         self.current_deliveries = current_deliveries
 
     def make_deliveries(self):

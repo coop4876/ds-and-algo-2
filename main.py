@@ -40,4 +40,4 @@ truck_1 = Truck(warehouse.load_truck())
 
 print("**********packages on truck_1")
 for package in truck_1.current_deliveries:
-    print(truck_1.current_deliveries[package].address)
+    print(truck_1.current_deliveries[package].delivery_time)
