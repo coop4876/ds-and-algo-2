@@ -1,5 +1,6 @@
-from package import Package
+from package import Package, Warehouse, Truck, DeliveredPackages
 from location_and_distance import LocationAndDistanceLoader, DistanceCalculator
+
 
 #set paths to data files
 location_file_path = 'data/location.csv'
@@ -13,8 +14,11 @@ data_loader.load_location_and_distance()
 #initialize DistanceCalculator
 distance_calculator = DistanceCalculator(data_loader.location_data, data_loader.distance_data)
 
-#build hash table of all undelivered packages
-package_hash = Package.build_package_hash_from_csv(package_file_path)
+#initialize Warehouse and build hash table of all undelivered packages
+warehouse = Warehouse()
+warehouse.build_undelivered_package_hash_table(package_file_path)
+
+
 
 
 
@@ -28,5 +32,5 @@ distance = distance_calculator.get_distance(start_address, end_address)
 print(distance)
 
 #print all package addresses
-for x in range(len(package_hash)):
-    print(package_hash[x].address)
+for x in range(len(warehouse.undelivered_package_hash)):
+    print(warehouse.undelivered_package_hash[x].address)

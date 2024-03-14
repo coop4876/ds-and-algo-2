@@ -12,10 +12,17 @@ class Package:
         self.weight = weight
         self.notes = notes
 
-    @classmethod
-    def build_package_hash_from_csv(cls, package_file_path):
-        package_hash = HashTable(capacity=40)
+    def get_closest_next_package(self, current_location):
+        pass
 
+#modify build_package_hash_from_csv to function as an undelivered list?
+#move from undelivered to truck to delivered?
+    
+class Warehouse:
+    def __init__(self):
+        self.undelivered_package_hash = HashTable(capacity=40)
+
+    def build_undelivered_package_hash_table(self, package_file_path):
         with open(package_file_path, 'r') as package_file:
             csv_reader = csv.reader(package_file)
             next(csv_reader) #skip header row
@@ -29,23 +36,10 @@ class Package:
                 weight = row[6]
                 notes = row[7]
 
-                package = cls(package_id, address, city, state, zip, delivery_deadline, weight, notes)
-                package_hash[package_id] = package
+                package = Package(package_id, address, city, state, zip, delivery_deadline, weight, notes)
+                self.undelivered_package_hash[package_id] = package
 
-        return package_hash
-    
-    def get_closest_next_package(self, current_location):
-        pass
-
-#modify build_package_hash_from_csv to function as an undelivered list?
-#move from undelivered to truck to delivered?
-    
-class Warehouse:
-    def __init__():
-        pass
-
-    def build_undelivered_package_hash():
-        pass
+        return self.undelivered_package_hash
 
 
 class Truck:
