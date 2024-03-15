@@ -26,9 +26,7 @@ class Package:
 
 class Warehouse:
     def __init__(self):
-        self.undelivered_package_hash = HashTable(capacity=40)
-        self.out_for_delivery_packages = HashTable(capacity=16)
-        self.delivered_packages = HashTable(capacity=40)
+        self.package_hash = HashTable(capacity=40)
 
     def build_undelivered_package_hash_table(self, package_file_path):
         with open(package_file_path, 'r') as package_file:
@@ -45,34 +43,27 @@ class Warehouse:
                 notes = row[7]
 
                 package = Package(package_id, address, city, state, zip, delivery_deadline, weight, notes)
-                self.undelivered_package_hash[package_id - 1] = package
+                self.package_hash[package_id - 1] = package
 
-        return self.undelivered_package_hash
+        return self.package_hash
     
-
-    def load_truck(self):
-        #todo get closest package index for next package to load
-        index = 0
-        for package in self.undelivered_package_hash:
-            if index <=15:
-                self.out_for_delivery_packages[index] = package
-                self.out_for_delivery_packages[index].status = "OutForDelivery"
-                del self.undelivered_package_hash[index]
-                index += 1
-            else:
-                break
-        return self.out_for_delivery_packages
-    
-    def efficient_load_truck(self):
-        truck_capacity = 16
-        while truck_capacity > 0:
-            pass
 
 class Truck:
     def __init__(self):
         #todo add current_time property
         self.total_milage = 0
         self.current_deliveries = HashTable(capacity=16)
+        
+
+    def load_truck(self, distance_calculator, warehouse):
+        index = 1
+        self.current_deliveries[0] = distance_calculator.get_next_package(warehouse.package_hash, "HUB")
+        self.current_deliveries[0].status = "En Route"
+        while index < 16:
+            previous_address = self.current_deliveries[index -1].address
+            self.current_deliveries[index] = distance_calculator.get_next_package(warehouse.package_hash, previous_address)
+            self.current_deliveries[index].status = "En Route"
+            index += 1
 
     def make_deliveries(self):
         #todo move to delivered hash table

@@ -42,13 +42,18 @@ class DistanceCalculator:
         distance = 1000
         index = 0
         while index < (len(undelivered_packages) - 1):
-            end_location = undelivered_packages[index].address
-            test_distance = self.get_distance(start_location, end_location)
-            if test_distance < distance:
-                next_package = undelivered_packages[index]
-                distance = test_distance
-            index += 1
-            next_package.distance_to_next_location = distance
+            if undelivered_packages[index] == None:
+                index += 1
+            elif undelivered_packages[index].status == "In Warehouse":
+                end_location = undelivered_packages[index].address
+                test_distance = self.get_distance(start_location, end_location)
+                if test_distance < distance:
+                    next_package = undelivered_packages[index]
+                    distance = test_distance
+                index += 1
+                next_package.distance_to_next_location = distance
+            else:
+                index += 1
         return next_package
 
 
