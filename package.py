@@ -41,10 +41,8 @@ class Warehouse:
                 delivery_deadline = row[5]
                 weight = row[6]
                 notes = row[7]
-
                 package = Package(package_id, address, city, state, zip, delivery_deadline, weight, notes)
                 self.package_hash[package_id - 1] = package
-
         return self.package_hash
     
     def print_warehouse_packages(self):
@@ -63,7 +61,7 @@ class Truck:
         self.current_deliveries = HashTable(capacity=16)
         self.current_time = 8
         
-
+    #todo add escape for when all packages are loaded but truck isn't yet full
     def load_truck(self, distance_calculator, warehouse):
         index = 1
         self.current_deliveries[0] = distance_calculator.get_next_package(warehouse.package_hash, "HUB")
