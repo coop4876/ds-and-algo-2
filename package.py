@@ -47,12 +47,21 @@ class Warehouse:
 
         return self.package_hash
     
+    def print_warehouse_packages(self):
+        index = 0
+        while index < 40:
+            if self.package_hash[index].status == "In Warehouse":
+                print(self.package_hash[index])
+                index += 1
+            else:
+                index += 1
 
 class Truck:
     def __init__(self):
         #todo add current_time property
         self.total_milage = 0
         self.current_deliveries = HashTable(capacity=16)
+        self.current_time = 8
         
 
     def load_truck(self, distance_calculator, warehouse):
@@ -65,21 +74,47 @@ class Truck:
             self.current_deliveries[index].status = "En Route"
             index += 1
 
-    def make_deliveries(self):
-        #todo move to delivered hash table
-        pass
+    def make_deliveries(self, delivered_packages):
+        index = 0
+        while index < 16:
+            if self.current_deliveries[index] == None:
+                break
+            else:
+                delivery_index = self.current_deliveries[index].package_id
+                self.total_milage += self.current_deliveries[index].distance_to_next_location
+                delivered_packages[delivery_index] = self.current_deliveries[index]
+                delivered_packages[delivery_index].status = "Delivered"
+                del self.current_deliveries[index]
+                index += 1
+        return
+
+
 
     def print_pending_packages(self):
-        pass
+        index = 0
+        while index < 16:
+            if self.current_deliveries[index] == None:
+                index += 1
+            else:
+                print(self.current_deliveries[index])
+                index += 1
+        return
 
 class DeliveredPackages:
-    def __init__():
-        pass
+    def __init__(self):
+        self.delivered_packages = HashTable(capacity=40)
 
-    def add_to_delivered():
-        pass
+    def add_to_delivered(self, package):
+        self.delivered_packages[package.package_id] = package
+        return
 
-    def print_delivered_packages():
-        pass
+    def print_delivered_packages(self):
+        index = 0
+        while index < 40:
+            if self.delivered_packages[index] == None:
+                index += 1
+            else:
+                print(self.delivered_packages[index])
+                index += 1
 
 

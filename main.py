@@ -18,31 +18,29 @@ distance_calculator = DistanceCalculator(data_loader.location_data, data_loader.
 warehouse = Warehouse()
 warehouse.build_undelivered_package_hash_table(package_file_path)
 
-
 truck_1 = Truck()
-truck_1.load_truck(distance_calculator, warehouse)
-
 truck_2 = Truck()
+deliveries = DeliveredPackages()
+
+truck_1.load_truck(distance_calculator, warehouse)
 truck_2.load_truck(distance_calculator, warehouse)
 
-print("**********packages on truck_1")
-index = 0
-while index < len(truck_1.current_deliveries):
-    print(truck_1.current_deliveries[index])
-    index += 1
+truck_1.make_deliveries(deliveries.delivered_packages)
+truck_2.make_deliveries(deliveries.delivered_packages)
 
+
+print("**********packages on truck_1")
+truck_1.print_pending_packages()
 
 print("**********packages on truck_2")
-index = 0
-while index < len(truck_2.current_deliveries):
-    print(truck_2.current_deliveries[index])
-    index += 1
+truck_2.print_pending_packages()
 
+print("**********packages still in warehouse")
+warehouse.print_warehouse_packages()
 
-print("**********packages in warehouse")
-index = 0
-while index < len(warehouse.package_hash):
-    if warehouse.package_hash[index].status == "In Warehouse":
-        print(warehouse.package_hash[index])
-    index += 1
+print("**********delivered packages")
+deliveries.print_delivered_packages()
 
+print("truck_1 milage: ", truck_1.total_milage)
+
+print("truck_2 milage: ", truck_2.total_milage)
