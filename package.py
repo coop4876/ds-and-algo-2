@@ -21,7 +21,8 @@ class Package:
         print_string = 'package ID: ' + str(self.package_id) \
             + ' | package status: ' + str(self.status) \
             + ' | delivery address: ' + str(self.address) \
-            + ' | distance to next location: ' + str(self.distance_to_next_location)
+            + ' | distance to next location: ' + str(self.distance_to_next_location) \
+            + ' | notes: ' + str(self.notes)
         return print_string
 
 class Warehouse:
