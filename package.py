@@ -69,8 +69,11 @@ class Truck:
         while index < 16:
             previous_address = self.current_deliveries[index -1].address
             self.current_deliveries[index] = distance_calculator.get_next_package(warehouse.package_hash, previous_address)
-            self.current_deliveries[index].status = "En Route"
-            index += 1
+            if self.current_deliveries[index] == None:
+                break
+            else:
+                self.current_deliveries[index].status = "En Route"
+                index += 1
 
     def make_deliveries(self, delivered_packages):
         index = 0

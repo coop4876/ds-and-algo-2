@@ -30,17 +30,16 @@ class DistanceCalculator:
                 start_index = current_index
             if self.location_data[current_index][1] == end_address:
                 end_index = current_index
-
         if self.distance_data[start_index][end_index] == '':
             distance = self.distance_data[end_index][start_index]
         else:
             distance = self.distance_data[start_index][end_index]
-
         return float(distance)
     
     def get_next_package(self, undelivered_packages, start_location):
         distance = 1000
         index = 0
+        next_package = None
         while index < (len(undelivered_packages) - 1):
             if undelivered_packages[index] == None:
                 index += 1

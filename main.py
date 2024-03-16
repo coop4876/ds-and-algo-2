@@ -28,8 +28,8 @@ truck_2.load_truck(distance_calculator, warehouse)
 truck_1.make_deliveries(deliveries.delivered_packages)
 truck_2.make_deliveries(deliveries.delivered_packages)
 
-# truck_1.load_truck(distance_calculator, warehouse)
-# truck_1.make_deliveries(deliveries.delivered_packages)
+truck_1.load_truck(distance_calculator, warehouse)
+truck_1.make_deliveries(deliveries.delivered_packages)
 
 print("**********packages on truck_1")
 truck_1.print_pending_packages()
