@@ -1,6 +1,4 @@
 import csv
-import sys
-
 
 class LocationAndDistanceLoader:
     def __init__(self, location_file_path, distance_file_path):
