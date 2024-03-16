@@ -64,13 +64,21 @@ class Truck:
         
     #todo add escape for when all packages are loaded but truck isn't yet full
     def load_truck(self, distance_calculator, warehouse):
-        index = 1
         self.current_deliveries[0] = distance_calculator.get_next_package(warehouse.package_hash, "HUB")
         self.current_deliveries[0].status = "En Route"
+        index = 1
         while index < 16:
             previous_address = self.current_deliveries[index -1].address
             self.current_deliveries[index] = distance_calculator.get_next_package(warehouse.package_hash, previous_address)
             if self.current_deliveries[index] == None:
+                distance_to_hub = distance_calculator.distance_to_hub(self.current_deliveries[index - 1].address)
+                self.current_deliveries[index - 1].distance_to_next_location = distance_to_hub
+                self.current_deliveries[index - 1].status = "En Route"
+                break
+            elif index == 15:
+                distance_to_hub = distance_calculator.distance_to_hub(self.current_deliveries[index].address)
+                self.current_deliveries[index].distance_to_next_location = distance_to_hub
+                self.current_deliveries[index].status = "En Route"
                 break
             else:
                 self.current_deliveries[index].status = "En Route"

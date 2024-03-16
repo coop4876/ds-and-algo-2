@@ -40,7 +40,7 @@ class DistanceCalculator:
         distance = 1000
         index = 0
         next_package = None
-        while index < (len(undelivered_packages) - 1):
+        while index < (len(undelivered_packages)):
             if undelivered_packages[index] == None:
                 index += 1
             elif undelivered_packages[index].status == "In Warehouse":
@@ -54,6 +54,10 @@ class DistanceCalculator:
             else:
                 index += 1
         return next_package
+    
+    def distance_to_hub(self, previous_address):
+        distance_to_hub = self.get_distance(previous_address, "HUB")
+        return distance_to_hub
 
 
     def time_distance_calculator(self, distance_traveled):
