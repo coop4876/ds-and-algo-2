@@ -2,7 +2,8 @@ import datetime
 from hash_table import HashTable
 
 class Truck:
-    def __init__(self):
+    def __init__(self, name):
+        self.name = name
         self.current_time = datetime.datetime(year= 2024, month= 3, day= 15, hour=8, minute=0)
         self.total_milage = 0
         self.current_deliveries = HashTable(capacity=16)
@@ -10,7 +11,7 @@ class Truck:
     def load_truck(self, distance_calculator, warehouse):
         #Initialize first delivery
         self.current_deliveries[0] = distance_calculator.get_next_package(warehouse.package_hash, "HUB")
-        self.current_deliveries[0].status = "En Route"
+        self.current_deliveries[0].status = "En Route - " + self.name
         #load subsequent deliveries until truck is full or all pakcgaes are loaded
         index = 1
         while index < 16:
@@ -20,18 +21,18 @@ class Truck:
                 #all available packages are loaded, return to hub after
                 distance_to_hub = distance_calculator.distance_to_hub(self.current_deliveries[index - 1].address)
                 self.current_deliveries[index - 1].distance_to_next_location = distance_to_hub
-                self.current_deliveries[index - 1].status = "En Route"
+                self.current_deliveries[index - 1].status = "En Route - " + self.name
                 break
             elif index == 15:
                 #truck is full
                 distance_to_hub = distance_calculator.distance_to_hub(next_package.address)
                 next_package.distance_to_next_location = distance_to_hub
-                next_package.status = "En Route"
+                next_package.status = "En Route - " + self.name
                 self.current_deliveries[index] = next_package
                 break
             else:
                 #normal loading procedure
-                next_package.status = "En Route"
+                next_package.status = "En Route - " + self.name
                 self.current_deliveries[index] = next_package
                 index += 1
 
@@ -47,7 +48,6 @@ class Truck:
                 delivered_packages[delivery_index].status = "Delivered"
                 del self.current_deliveries[index]
                 index += 1
-        return
 
     def make_deliveries(self, delivered_packages, distance_calculator):
         index = 0
@@ -67,7 +67,6 @@ class Truck:
                 del self.current_deliveries[index]
 
                 index += 1
-        return
 
     def print_pending_packages(self):
         index = 0
@@ -77,4 +76,3 @@ class Truck:
             else:
                 print(self.current_deliveries[index])
                 index += 1
-        return

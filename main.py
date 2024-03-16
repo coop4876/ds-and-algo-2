@@ -19,9 +19,9 @@ distance_calculator = DistanceCalculator(data_loader.location_data, data_loader.
 warehouse = Warehouse()
 warehouse.build_undelivered_package_hash_table(package_file_path)
 
-truck_1 = Truck()
-truck_2 = Truck()
-truck_3 = Truck()
+truck_1 = Truck("Truck1")
+truck_2 = Truck("Truck2")
+truck_3 = Truck("Truck3")
 deliveries = DeliveredPackages()
 
 truck_1.load_truck(distance_calculator, warehouse)
@@ -29,8 +29,8 @@ truck_2.load_truck(distance_calculator, warehouse)
 truck_3.load_truck(distance_calculator, warehouse)
 
 truck_1.make_deliveries(deliveries.delivered_packages, distance_calculator)
-truck_2.make_deliveries(deliveries.delivered_packages, distance_calculator)
-truck_3.make_deliveries(deliveries.delivered_packages, distance_calculator)
+# truck_2.make_deliveries(deliveries.delivered_packages, distance_calculator)
+# truck_3.make_deliveries(deliveries.delivered_packages, distance_calculator)
 
 print("**********packages on truck_1")
 truck_1.print_pending_packages()

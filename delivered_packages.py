@@ -6,7 +6,6 @@ class DeliveredPackages:
 
     def add_to_delivered(self, package):
         self.delivered_packages[package.package_id] = package
-        return
 
     def print_delivered_packages(self):
         index = 0
