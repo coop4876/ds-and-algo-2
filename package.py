@@ -62,26 +62,32 @@ class Truck:
         self.current_deliveries = HashTable(capacity=16)
         self.current_time = 8
         
-    #todo add escape for when all packages are loaded but truck isn't yet full
     def load_truck(self, distance_calculator, warehouse):
+        #Initialize first delivery
         self.current_deliveries[0] = distance_calculator.get_next_package(warehouse.package_hash, "HUB")
         self.current_deliveries[0].status = "En Route"
+        #load subsequent deliveries until truck is full or all pakcgaes are loaded
         index = 1
         while index < 16:
             previous_address = self.current_deliveries[index -1].address
-            self.current_deliveries[index] = distance_calculator.get_next_package(warehouse.package_hash, previous_address)
-            if self.current_deliveries[index] == None:
+            next_package = distance_calculator.get_next_package(warehouse.package_hash, previous_address)
+            if next_package is None:
+                #all available packages are loaded, return to hub after
                 distance_to_hub = distance_calculator.distance_to_hub(self.current_deliveries[index - 1].address)
                 self.current_deliveries[index - 1].distance_to_next_location = distance_to_hub
                 self.current_deliveries[index - 1].status = "En Route"
                 break
             elif index == 15:
-                distance_to_hub = distance_calculator.distance_to_hub(self.current_deliveries[index].address)
-                self.current_deliveries[index].distance_to_next_location = distance_to_hub
-                self.current_deliveries[index].status = "En Route"
+                #truck is full
+                distance_to_hub = distance_calculator.distance_to_hub(next_package.address)
+                next_package.distance_to_next_location = distance_to_hub
+                next_package.status = "En Route"
+                self.current_deliveries[index] = next_package
                 break
             else:
-                self.current_deliveries[index].status = "En Route"
+                #normal loading procedure
+                next_package.status = "En Route"
+                self.current_deliveries[index] = next_package
                 index += 1
 
     def make_deliveries(self, delivered_packages):
@@ -90,7 +96,7 @@ class Truck:
             if self.current_deliveries[index] == None:
                 break
             else:
-                delivery_index = self.current_deliveries[index].package_id
+                delivery_index = self.current_deliveries[index].package_id - 1
                 self.total_milage += self.current_deliveries[index].distance_to_next_location
                 delivered_packages[delivery_index] = self.current_deliveries[index]
                 delivered_packages[delivery_index].status = "Delivered"

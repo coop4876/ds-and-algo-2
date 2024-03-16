@@ -27,8 +27,9 @@ truck_1.load_truck(distance_calculator, warehouse)
 truck_2.load_truck(distance_calculator, warehouse)
 truck_3.load_truck(distance_calculator, warehouse)
 
-# truck_1.make_deliveries(deliveries.delivered_packages)
-# truck_2.make_deliveries(deliveries.delivered_packages)
+truck_1.make_deliveries(deliveries.delivered_packages)
+truck_2.make_deliveries(deliveries.delivered_packages)
+truck_3.make_deliveries(deliveries.delivered_packages)
 
 # truck_1.load_truck(distance_calculator, warehouse)
 # # truck_1.make_deliveries(deliveries.delivered_packages)
@@ -51,3 +52,5 @@ deliveries.print_delivered_packages()
 print("truck_1 milage: ", truck_1.total_milage)
 
 print("truck_2 milage: ", truck_2.total_milage)
+
+print("truck_3 milage: ", truck_3.total_milage)
