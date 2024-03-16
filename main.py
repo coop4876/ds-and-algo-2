@@ -1,6 +1,7 @@
-from package import Package, Warehouse, Truck, DeliveredPackages
 from location_and_distance import LocationAndDistanceLoader, DistanceCalculator
-
+from truck import Truck
+from warehouse import Warehouse
+from delivered_packages import DeliveredPackages
 
 #set paths to data files
 location_file_path = 'data/location.csv'
@@ -51,5 +52,3 @@ print("truck_1 milage: ", truck_1.total_milage)
 print("truck_2 milage: ", truck_2.total_milage)
 
 print("truck_3 milage: ", truck_3.total_milage)
-
-###########
