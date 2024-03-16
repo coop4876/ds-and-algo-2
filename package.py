@@ -1,5 +1,5 @@
 class Package:
-    def __init__(self,package_id, address, city, state, zip_code, deadline, weight, notes=""):
+    def __init__(self,package_id, address, city, state, zip_code, deadline, weight, status, notes="",):
         self.package_id = package_id
         self.address = address
         self.city = city
@@ -9,7 +9,7 @@ class Package:
         self.weight = weight
         self.notes = notes
         #todo special case for package not yet in warehouse
-        self.status = "In Warehouse"
+        self.status = status
         self.delivery_time = "N/A"
         self.distance_to_next_location = 0
         self.delivery_time = "N/A"
