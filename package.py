@@ -59,7 +59,6 @@ class Warehouse:
 
 class Truck:
     def __init__(self):
-        #todo add current_time property
         self.current_time = datetime.datetime(year= 2024, month= 3, day= 15, hour=8, minute=0)
         self.total_milage = 0
         self.current_deliveries = HashTable(capacity=16)
@@ -125,8 +124,6 @@ class Truck:
 
                 index += 1
         return
-
-
 
     def print_pending_packages(self):
         index = 0
