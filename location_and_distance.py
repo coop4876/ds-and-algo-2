@@ -62,4 +62,4 @@ class DistanceCalculator:
 
     def time_distance_calculator(self, distance_traveled):
         time_passed = distance_traveled / 18 * 60
-        return time_passed
+        return float(time_passed)
