@@ -15,5 +15,3 @@ class DeliveredPackages:
             else:
                 print(self.delivered_packages[index])
                 index += 1
-
-

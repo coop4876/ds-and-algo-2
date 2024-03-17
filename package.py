@@ -21,4 +21,3 @@ class Package:
             + ' | distance to next location: ' + str(self.distance_to_next_location) \
             + ' | delivery time: ' +str(self.delivery_time)
         return print_string
-

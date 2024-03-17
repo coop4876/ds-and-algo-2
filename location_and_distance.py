@@ -48,7 +48,7 @@ class DistanceCalculator:
                     next_package = undelivered_packages[index]
                     distance = test_distance
                 index += 1
-                next_package.distance_to_next_location = distance
+                next_package.distance_from_last_location = distance
             else:
                 index += 1
         return next_package

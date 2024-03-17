@@ -23,13 +23,13 @@ class Truck:
             if next_package is None:
                 #all available packages are loaded, return to hub after
                 distance_to_hub = distance_calculator.distance_to_hub(self.current_deliveries[index - 1].address)
-                self.current_deliveries[index - 1].distance_to_next_location = distance_to_hub
+                self.current_deliveries[index - 1].distance_from_last_location = distance_to_hub
                 self.current_deliveries[index - 1].status = "En Route - " + self.name
                 break
             elif index == 15:
-                #truck is full
+                #truck is full, return to hub after
                 distance_to_hub = distance_calculator.distance_to_hub(next_package.address)
-                next_package.distance_to_next_location = distance_to_hub
+                next_package.distance_from_last_location = distance_to_hub
                 next_package.status = "En Route - " + self.name
                 self.current_deliveries[index] = next_package
                 break
@@ -46,7 +46,7 @@ class Truck:
                 break
             else:
                 delivery_index = self.current_deliveries[index].package_id - 1
-                self.total_milage += self.current_deliveries[index].distance_to_next_location
+                self.total_milage += self.current_deliveries[index].distance_from_last_location
                 delivered_packages[delivery_index] = self.current_deliveries[index]
                 delivered_packages[delivery_index].status = "Delivered"
                 del self.current_deliveries[index]
@@ -59,8 +59,8 @@ class Truck:
                 break
             else:
                 current_delivery = self.current_deliveries[index]
-                travel_time = distance_calculator.time_distance_calculator(current_delivery.distance_to_next_location)
-                self.total_milage += current_delivery.distance_to_next_location
+                travel_time = distance_calculator.time_distance_calculator(current_delivery.distance_from_last_location)
+                self.total_milage += current_delivery.distance_from_last_location
                 self.current_time += datetime.timedelta(minutes=travel_time)
                 current_delivery.delivery_time = self.current_time
                 current_delivery.status = "Delivered"
