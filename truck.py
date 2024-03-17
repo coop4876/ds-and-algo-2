@@ -11,6 +11,9 @@ class Truck:
     def load_truck(self, distance_calculator, warehouse):
         #Initialize first delivery
         self.current_deliveries[0] = distance_calculator.get_next_package(warehouse.package_hash, "HUB")
+        #return if no packages are available to load
+        if self.current_deliveries[0] == None:
+            return
         self.current_deliveries[0].status = "En Route - " + self.name
         #load subsequent deliveries until truck is full or all pakcgaes are loaded
         index = 1
