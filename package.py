@@ -15,9 +15,14 @@ class Package:
         self.delivery_time = "N/A"
 
     def __str__(self):
-        print_string = 'package ID: ' + str(self.package_id) \
-            + ' | package status: ' + str(self.status) \
-            + ' | delivery address: ' + str(self.address) \
-            + ' | distance from last location ' + str(self.distance_from_last_location) \
-            + ' | delivery time: ' +str(self.delivery_time)
+        if self.notes == '':
+            print_string = 'package ID: ' + str(self.package_id) \
+                + ' | package status: ' + str(self.status) \
+                + ' | delivery address: ' + str(self.address) \
+                + ' | distance to next location: ' + str(self.distance_from_last_location) \
+                + ' | delivery time: ' +str(self.delivery_time)
+        else:
+            print_string = 'package ID: ' + str(self.package_id) \
+                + ' | package status: ' + str(self.status) + ' ' + str(self.notes)\
+                + ' | delivery address: ' + str(self.address) 
         return print_string

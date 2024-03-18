@@ -25,11 +25,9 @@ class Truck:
             if next_package is None:
                 distance_to_hub = distance_calculator.distance_to_hub(self.current_deliveries[index - 1].address)
                 self.distance_after_last_package = distance_to_hub
-                # self.current_deliveries[index - 1].distance_from_last_location = distance_to_hub
-                # self.current_deliveries[index - 1].status = "En Route - " + self.name
                 break
+            #truck is full, return to hub after
             elif index == 15:
-                #truck is full, return to hub after
                 next_package.status = "En Route - " + self.name
                 self.current_deliveries[index] = next_package
                 distance_to_hub = distance_calculator.distance_to_hub(next_package.address)
