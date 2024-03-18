@@ -7,6 +7,7 @@ class Truck:
         self.current_time = datetime.datetime(year= 2024, month= 3, day= 15, hour=8, minute=0)
         self.total_milage = 0
         self.current_deliveries = HashTable(capacity=16)
+        self.distance_after_last_package = 0
         
     def load_truck(self, distance_calculator, warehouse):
         #Initialize first delivery
@@ -23,15 +24,17 @@ class Truck:
             if next_package is None:
                 #all available packages are loaded, return to hub after
                 distance_to_hub = distance_calculator.distance_to_hub(self.current_deliveries[index - 1].address)
-                self.current_deliveries[index - 1].distance_from_last_location = distance_to_hub
-                self.current_deliveries[index - 1].status = "En Route - " + self.name
+                self.distance_after_last_package = distance_to_hub
+                # self.current_deliveries[index - 1].distance_from_last_location = distance_to_hub
+                # self.current_deliveries[index - 1].status = "En Route - " + self.name
                 break
             elif index == 15:
                 #truck is full, return to hub after
-                distance_to_hub = distance_calculator.distance_to_hub(next_package.address)
-                next_package.distance_from_last_location = distance_to_hub
+                # next_package.distance_from_last_location = distance_to_hub
                 next_package.status = "En Route - " + self.name
                 self.current_deliveries[index] = next_package
+                distance_to_hub = distance_calculator.distance_to_hub(next_package.address)
+                self.distance_after_last_package = distance_to_hub
                 break
             else:
                 #normal loading procedure
@@ -39,23 +42,12 @@ class Truck:
                 self.current_deliveries[index] = next_package
                 index += 1
 
-    def make_deliveries_(self, delivered_packages):
-        index = 0
-        while index < 16:
-            if self.current_deliveries[index] is None:
-                break
-            else:
-                delivery_index = self.current_deliveries[index].package_id - 1
-                self.total_milage += self.current_deliveries[index].distance_from_last_location
-                delivered_packages[delivery_index] = self.current_deliveries[index]
-                delivered_packages[delivery_index].status = "Delivered"
-                del self.current_deliveries[index]
-                index += 1
-
     def make_deliveries(self, delivered_packages, distance_calculator):
         index = 0
         while index < 16:
             if self.current_deliveries[index] is None:
+                self.total_milage += self.distance_after_last_package
+                self.distance_after_last_package = 0
                 break
             else:
                 current_delivery = self.current_deliveries[index]
@@ -70,6 +62,8 @@ class Truck:
                 del self.current_deliveries[index]
 
                 index += 1
+        self.total_milage += self.distance_after_last_package
+        self.distance_after_last_package = 0
 
     def print_pending_packages(self):
         index = 0
@@ -79,3 +73,4 @@ class Truck:
             else:
                 print(self.current_deliveries[index])
                 index += 1
+        print("Distance to HUB after last Package: ", self.distance_after_last_package)
