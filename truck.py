@@ -46,7 +46,6 @@ class Truck:
             if self.current_deliveries[index] is None:
                 #update milage
                 self.total_milage += self.distance_after_last_package
-                print("distance after last: ", self.distance_after_last_package)
                 #update current time
                 travel_time = distance_calculator.time_distance_calculator(self.distance_after_last_package)
                 self.current_time += datetime.timedelta(minutes=travel_time)

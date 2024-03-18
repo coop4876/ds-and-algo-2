@@ -23,6 +23,7 @@ class Package:
                 + ' | delivery time: ' +str(self.delivery_time)
         else:
             print_string = 'package ID: ' + str(self.package_id) \
-                + ' | package status: ' + str(self.status) + ' ' + str(self.notes)\
+                + ' | package status: ' + str(self.status) \
+                + ' | Note: ' + str(self.notes) \
                 + ' | delivery address: ' + str(self.address) 
         return print_string
