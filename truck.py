@@ -74,6 +74,26 @@ class Truck:
         print("distance after last: ", self.distance_after_last_package)
         self.current_time += datetime.timedelta(minutes=travel_time)
 
+        def build_package_whitelist(self, warehouse):
+            package_whitelist = []
+            index = 0
+            while index < len(warehouse.package_hash):
+                if warehouse.package_hash[index].status == "In Warehouse":
+                    package_whitelist.append(index)
+                elif(warehouse.package_hash[index].notes == "Can only be on truck 2" and self.truck.name == "Truck2"):
+                    package_whitelist.append(index)
+                #todo figure out time formatting for comparison
+                elif(warehouse.package_hash[index].notes == "Delayed on flight---will not arrive to depot until 9:05 am" and self.current_time >= "9:05"):
+                    package_whitelist.append(index)
+                #todo figure out time formatting for comparison
+                elif(warehouse.package_hash[index].notes == "Wrong address listed" and self.current_time >= "10:20"):
+                    warehouse.package_hash[index].address = "410 S. State St., Salt Lake City, UT 84111"
+                    package_whitelist.append(index)
+                elif(False):
+                    #todo handle group delivery
+                    pass
+                index += 1
+
     def print_pending_packages(self):
         index = 0
         while index < 16:
