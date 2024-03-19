@@ -29,9 +29,9 @@ def main():
     truck_2.load_truck(distance_calculator, warehouse)
     truck_3.load_truck(distance_calculator, warehouse)
 
-    truck_1.make_deliveries(deliveries.delivered_packages, distance_calculator)
-    truck_2.make_deliveries(deliveries.delivered_packages, distance_calculator)
-    truck_3.make_deliveries(deliveries.delivered_packages, distance_calculator)
+    # truck_1.make_deliveries(deliveries.delivered_packages, distance_calculator)
+    # truck_2.make_deliveries(deliveries.delivered_packages, distance_calculator)
+    # truck_3.make_deliveries(deliveries.delivered_packages, distance_calculator)
 
     print("**********packages on truck_1")
     truck_1.print_pending_packages()
