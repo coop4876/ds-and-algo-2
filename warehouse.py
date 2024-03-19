@@ -28,7 +28,7 @@ class Warehouse:
                 package = Package(package_id, address, city, state, zip, delivery_deadline, weight, status, notes)
                 self.package_hash[package_id - 1] = package
         return self.package_hash
-    
+
     def print_warehouse_packages(self):
         index = 0
         while index < 40:

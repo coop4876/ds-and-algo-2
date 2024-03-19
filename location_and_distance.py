@@ -33,7 +33,7 @@ class DistanceCalculator:
         else:
             distance = self.distance_data[start_index][end_index]
         return float(distance)
-    
+
     def get_next_package(self, undelivered_packages, start_location):
         distance = 1000
         index = 0
@@ -52,11 +52,10 @@ class DistanceCalculator:
             else:
                 index += 1
         return next_package
-    
+
     def distance_to_hub(self, previous_address):
         distance_to_hub = self.get_distance(previous_address, "HUB")
         return distance_to_hub
-
 
     def time_distance_calculator(self, distance_traveled):
         time_passed = distance_traveled / 18 * 60
