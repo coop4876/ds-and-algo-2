@@ -11,8 +11,10 @@ class Truck:
         self.package_whitelist = []
 
     def load_truck(self, distance_calculator, warehouse):
+        #build whitelist for possible deliveries this trip
+        self.build_package_whitelist(warehouse)
         #Initialize first delivery
-        self.current_deliveries[0] = distance_calculator.get_next_package(warehouse.package_hash, "HUB")
+        self.current_deliveries[0] = distance_calculator.get_next_package(warehouse.package_hash, "HUB", self.package_whitelist)
         #return if no packages are available to load
         if self.current_deliveries[0] == None:
             return
@@ -21,7 +23,7 @@ class Truck:
         index = 1
         while index < 16:
             previous_address = self.current_deliveries[index - 1].address
-            next_package = distance_calculator.get_next_package(warehouse.package_hash, previous_address)
+            next_package = distance_calculator.get_next_package(warehouse.package_hash, previous_address, self.package_whitelist)
             #all available packages are loaded, return to hub after
             if next_package is None:
                 distance_to_hub = distance_calculator.distance_to_hub(self.current_deliveries[index - 1].address)
@@ -60,7 +62,7 @@ class Truck:
                 self.current_time += datetime.timedelta(minutes=travel_time)
                 #update package attributes
                 current_delivery.delivery_time = self.current_time
-                current_delivery.status = "Delivered"
+                current_delivery.status = "Delivered - " + self.name
                 #get delivered package index and write to delivered packages hash table
                 delivery_index = self.current_deliveries[index].package_id - 1
                 delivered_packages[delivery_index] = current_delivery
@@ -75,28 +77,42 @@ class Truck:
         print("distance after last: ", self.distance_after_last_package)
         self.current_time += datetime.timedelta(minutes=travel_time)
 
-        def build_package_whitelist(self, warehouse):
-            self.package_whitelist = []
-            index = 0
-            while index < len(warehouse.package_hash):
-                if warehouse.package_hash[index].status == "In Warehouse":
-                    self.package_whitelist.append(index)
-                elif(warehouse.package_hash[index].notes == "Can only be on truck 2" \
-                        and self.truck.name == "Truck2"):
-                    self.package_whitelist.append(index)
-                #todo figure out time formatting for comparison
-                elif(warehouse.package_hash[index].notes == "Delayed on flight---will not arrive to depot until 9:05 am" \
-                        and self.current_time >= "9:05"):
-                    self.package_whitelist.append(index)
-                #todo figure out time formatting for comparison
-                elif(warehouse.package_hash[index].notes == "Wrong address listed" \
-                        and self.current_time >= "10:20"):
-                    warehouse.package_hash[index].address = "410 S. State St., Salt Lake City, UT 84111"
-                    self.package_whitelist.append(index)
-                elif(False):
-                    #todo handle group delivery
-                    pass
-                index += 1
+    def build_package_whitelist(self, warehouse):
+        self.package_whitelist = []
+        #set package delay time
+        delay_time = datetime.datetime(year= 2024, month= 3, day= 15, hour=9, minute=5)
+        #set address correction time
+        correct_address_time = datetime.datetime(year= 2024, month= 3, day= 15, hour=10, minute=20)
+        index = 0
+        while index < len(warehouse.package_hash):
+            #Case: already loaded or delivered
+            if warehouse.package_hash[index].status == "En Route - Truck1" or \
+                    warehouse.package_hash[index].status == "En Route - Truck2" or \
+                    warehouse.package_hash[index].status == "Delivered":
+                pass
+            #Case: no notes
+            elif warehouse.package_hash[index].status == "In Warehouse":
+                self.package_whitelist.append(index)
+            #Case: can only be on truck 2
+            elif(warehouse.package_hash[index].notes == "Can only be on truck 2" and \
+                    self.name == "Truck2"):
+                self.package_whitelist.append(index)
+            #Case: package delayed until 9:05
+            elif(warehouse.package_hash[index].notes == "Delayed on flight---will not arrive to depot until 9:05 am" and \
+                    self.current_time >= delay_time):
+                self.package_whitelist.append(index)
+            #Case: package with wrong address, corrected at 10:20
+            elif(warehouse.package_hash[index].notes == "Wrong address listed" and \
+                    self.current_time >= correct_address_time):
+                warehouse.package_hash[index].address = "410 S. State St., Salt Lake City, UT 84111"
+                self.package_whitelist.append(index)
+            #Case: group of packages that have to be delivered together
+            #todo better solution?
+            elif(warehouse.package_hash[index].notes == "Must be delivered with 15, 19" or \
+                warehouse.package_hash[index].notes == "Must be delivered with 13, 19" or \
+                warehouse.package_hash[index].notes == "Must be delivered with 13, 15"):
+                self.package_whitelist.append(index)
+            index += 1
 
     def print_pending_packages(self):
         index = 0
@@ -108,3 +124,6 @@ class Truck:
                 index += 1
         print("Distance to HUB after last Package: ", self.distance_after_last_package)
         print("Time: ", self.current_time)
+
+    def pass_time(self, minutes_to_pass):
+        self.current_time += datetime.timedelta(minutes=minutes_to_pass)

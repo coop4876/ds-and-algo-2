@@ -22,25 +22,25 @@ def main():
 
     truck_1 = Truck("Truck1")
     truck_2 = Truck("Truck2")
-    truck_3 = Truck("Truck3")
     deliveries = DeliveredPackages()
 
     truck_1.load_truck(distance_calculator, warehouse)
     truck_2.load_truck(distance_calculator, warehouse)
-    truck_3.load_truck(distance_calculator, warehouse)
 
     truck_1.make_deliveries(deliveries.delivered_packages, distance_calculator)
     truck_2.make_deliveries(deliveries.delivered_packages, distance_calculator)
-    truck_3.make_deliveries(deliveries.delivered_packages, distance_calculator)
+
+    # truck_2.pass_time(60)
+
+    truck_2.load_truck(distance_calculator, warehouse)
+    truck_2.make_deliveries(deliveries.delivered_packages, distance_calculator)
+
 
     print("**********packages on truck_1")
     truck_1.print_pending_packages()
 
     print("**********packages on truck_2")
     truck_2.print_pending_packages()
-
-    print("**********packages on truck_3")
-    truck_3.print_pending_packages()
 
     print("**********packages still in warehouse")
     warehouse.print_warehouse_packages()
@@ -51,8 +51,6 @@ def main():
     print("truck_1 milage: ", truck_1.total_milage)
 
     print("truck_2 milage: ", truck_2.total_milage)
-
-    print("truck_3 milage: ", truck_3.total_milage)
 
 
 if __name__ == "__main__":

@@ -22,7 +22,7 @@ class Warehouse:
                 weight = row[6]
                 notes = row[7]
                 if notes != '':
-                    status = "HOLD - In Warehouse"
+                    status = "HOLD"
                 else:
                     status = "In Warehouse"
                 package = Package(package_id, address, city, state, zip, delivery_deadline, weight, status, notes)
@@ -32,7 +32,7 @@ class Warehouse:
     def print_warehouse_packages(self):
         index = 0
         while index < 40:
-            if self.package_hash[index].status == "In Warehouse" or self.package_hash[index].status == "HOLD - In Warehouse":
+            if self.package_hash[index].status == "In Warehouse" or self.package_hash[index].status == "HOLD":
                 print(self.package_hash[index])
                 index += 1
             else:

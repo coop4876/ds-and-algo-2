@@ -34,7 +34,7 @@ class DistanceCalculator:
             distance = self.distance_data[start_index][end_index]
         return float(distance)
 
-    def get_next_package(self, undelivered_packages, start_location):
+    def get_next_package_OLD(self, undelivered_packages, start_location, package_whitelist):
         distance = 1000
         index = 0
         next_package = None
@@ -52,6 +52,28 @@ class DistanceCalculator:
             else:
                 index += 1
         return next_package
+    
+    
+    def get_next_package(self, undelivered_packages, start_location, package_whitelist):
+        distance = 1000
+        index = 0
+        next_package = None
+        while index < (len(undelivered_packages)):
+            if package_whitelist == []:
+                return
+            if undelivered_packages[index].package_id - 1 in package_whitelist:
+                end_location = undelivered_packages[index].address
+                test_distance = self.get_distance(start_location, end_location)
+                if test_distance < distance:
+                    next_package = undelivered_packages[index]
+                    distance = test_distance
+                index += 1
+                next_package.distance_from_last_location = distance
+            else:
+                index += 1
+        package_whitelist.remove(next_package.package_id - 1)
+        return next_package
+
 
     def distance_to_hub(self, previous_address):
         distance_to_hub = self.get_distance(previous_address, "HUB")
