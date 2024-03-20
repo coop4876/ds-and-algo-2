@@ -30,7 +30,7 @@ def main():
     truck_1.make_deliveries(deliveries.delivered_packages, distance_calculator)
     truck_2.make_deliveries(deliveries.delivered_packages, distance_calculator)
 
-    # truck_2.pass_time(60)
+    truck_2.pass_time(60)
 
     truck_2.load_truck(distance_calculator, warehouse)
     truck_2.make_deliveries(deliveries.delivered_packages, distance_calculator)

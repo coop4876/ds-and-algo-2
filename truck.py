@@ -104,7 +104,7 @@ class Truck:
             #Case: package with wrong address, corrected at 10:20
             elif(warehouse.package_hash[index].notes == "Wrong address listed" and \
                     self.current_time >= correct_address_time):
-                warehouse.package_hash[index].address = "410 S. State St., Salt Lake City, UT 84111"
+                warehouse.package_hash[index].address = "410 S State St (84111)"
                 self.package_whitelist.append(index)
             #Case: group of packages that have to be delivered together
             #todo better solution?
