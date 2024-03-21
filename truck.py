@@ -81,6 +81,7 @@ class Truck:
     #todo build 3 separate priority lists and load from them sequentially?
     #todo p1 - 9am, p2 - 10:30am, p3 - EOD
     #todo add deadline argumentto build_package_whitelist?
+    #todo mod load truck to pick up where left off instead of at index 0
     def build_package_whitelist(self, warehouse):
         self.package_whitelist = []
         #set package delay time
