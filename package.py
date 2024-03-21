@@ -8,7 +8,6 @@ class Package:
         self.deadline = deadline
         self.weight = weight
         self.notes = notes
-        #todo special case for package not yet in warehouse
         self.status = status
         self.delivery_time = "N/A"
         self.distance_from_last_location = 0
