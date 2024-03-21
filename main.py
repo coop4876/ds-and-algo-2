@@ -20,6 +20,12 @@ def main():
     warehouse = Warehouse()
     warehouse.build_undelivered_package_hash_table(package_file_path)
 
+    index = 0
+    while index < 40:
+        if warehouse.package_hash[index].deadline != 'EOD':
+            print(warehouse.package_hash[index])
+        index += 1
+
     truck_1 = Truck("Truck1")
     truck_2 = Truck("Truck2")
     deliveries = DeliveredPackages()
@@ -33,16 +39,11 @@ def main():
     print("Truck 2 time: ", truck_2.current_time)
 
     truck_1.load_truck(distance_calculator, warehouse)
-    truck_1.make_deliveries(deliveries.delivered_packages, distance_calculator)
-
+    truck_2.pass_time(50)
     truck_2.load_truck(distance_calculator, warehouse)
+
+    truck_1.make_deliveries(deliveries.delivered_packages, distance_calculator)
     truck_2.make_deliveries(deliveries.delivered_packages, distance_calculator)
-
-    print("**********packages on truck_1")
-    truck_1.print_pending_packages()
-
-    print("**********packages on truck_2")
-    truck_2.print_pending_packages()
 
     print("**********packages still in warehouse")
     warehouse.print_warehouse_packages()
@@ -51,8 +52,10 @@ def main():
     deliveries.print_delivered_packages()
 
     print("truck_1 milage: ", truck_1.total_milage)
+    print("truck_1 time: ", truck_1.current_time)
 
     print("truck_2 milage: ", truck_2.total_milage)
+    print("truck_2 time: ", truck_2.current_time)
 
 
 if __name__ == "__main__":

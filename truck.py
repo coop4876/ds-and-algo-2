@@ -77,6 +77,10 @@ class Truck:
         print("distance after last: ", self.distance_after_last_package)
         self.current_time += datetime.timedelta(minutes=travel_time)
 
+
+    #todo build 3 separate priority lists and load from them sequentially?
+    #todo p1 - 9am, p2 - 10:30am, p3 - EOD
+    #todo add deadline argumentto build_package_whitelist?
     def build_package_whitelist(self, warehouse):
         self.package_whitelist = []
         #set package delay time
@@ -107,7 +111,6 @@ class Truck:
                 warehouse.package_hash[index].address = "410 S State St (84111)"
                 self.package_whitelist.append(index)
             #Case: group of packages that have to be delivered together
-            #todo better solution?
             elif(warehouse.package_hash[index].notes == "Must be delivered with 15, 19" or \
                 warehouse.package_hash[index].notes == "Must be delivered with 13, 19" or \
                 warehouse.package_hash[index].notes == "Must be delivered with 13, 15"):
