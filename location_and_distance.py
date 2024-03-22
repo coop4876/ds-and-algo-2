@@ -40,15 +40,13 @@ class DistanceCalculator:
         next_package = None
         priority = 0
         #find highest priority non-empty package sub-whitelist
-        print(package_whitelist)
-        while priority < 3:
+        while priority < 4:
             if package_whitelist[priority] != []:
                 break
             else:
                 priority += 1
-
-        if priority == 3: priority = 2
-        print(priority)
+        #todo fix this, goes to 4 and throws an error when not a full load
+        if priority == 4: priority = 3
         if package_whitelist[priority] == []:
             return
         index = 0
