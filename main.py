@@ -20,30 +20,30 @@ def main():
     warehouse = Warehouse()
     warehouse.build_undelivered_package_hash_table(package_file_path)
 
-    index = 0
-    while index < 40:
-        if warehouse.package_hash[index].deadline != 'EOD':
-            print(warehouse.package_hash[index])
-        index += 1
-
-    truck_1 = Truck("Truck1")
-    truck_2 = Truck("Truck2")
+    truck_1 = Truck("Truck 1")
+    truck_2 = Truck("Truck 2")
     deliveries = DeliveredPackages()
 
     truck_1.load_truck(distance_calculator, warehouse)
+    truck_2.pass_time(65)
     truck_2.load_truck(distance_calculator, warehouse)
 
-    truck_1.make_deliveries(deliveries.delivered_packages, distance_calculator)
-    print("Truck 1 time: ", truck_1.current_time)
-    truck_2.make_deliveries(deliveries.delivered_packages, distance_calculator)
-    print("Truck 2 time: ", truck_2.current_time)
+    print("**********packages on Truck 1")
+    truck_1.print_pending_packages()
 
-    truck_1.load_truck(distance_calculator, warehouse)
-    truck_2.pass_time(50)
-    truck_2.load_truck(distance_calculator, warehouse)
+    print("**********packages on Truck 2")
+    truck_2.print_pending_packages()
 
     truck_1.make_deliveries(deliveries.delivered_packages, distance_calculator)
     truck_2.make_deliveries(deliveries.delivered_packages, distance_calculator)
+
+    truck_2.load_truck(distance_calculator, warehouse)
+    truck_2.make_deliveries(deliveries.delivered_packages, distance_calculator)
+
+    # truck_1.load_truck(distance_calculator, warehouse)
+    # # truck_1.make_deliveries(deliveries.delivered_packages, distance_calculator)
+    # truck_2.load_truck(distance_calculator, warehouse)
+    # # truck_2.make_deliveries(deliveries.delivered_packages, distance_calculator)
 
     print("**********packages still in warehouse")
     warehouse.print_warehouse_packages()

@@ -18,14 +18,14 @@ class Warehouse:
                 city = row[2]
                 state = row[3]
                 zip = row[4]
-                delivery_deadline = row[5]
+                deadline = row[5]
                 weight = row[6]
                 notes = row[7]
                 if notes != '':
                     status = "HOLD"
                 else:
                     status = "In Warehouse"
-                package = Package(package_id, address, city, state, zip, delivery_deadline, weight, status, notes)
+                package = Package(package_id, address, city, state, zip, deadline, weight, status, notes)
                 self.package_hash[package_id - 1] = package
         return self.package_hash
 
