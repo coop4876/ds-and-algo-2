@@ -77,6 +77,7 @@ class Truck:
         print("distance after last: ", self.distance_after_last_package)
         self.current_time += datetime.timedelta(minutes=travel_time)
 
+    #todo remove p3, group delivery goes in p1
     def build_package_whitelist(self, warehouse):
         p0 = []
         p1 = []
@@ -121,7 +122,7 @@ class Truck:
                 self.package_whitelist[priority].append(index)
             #Case: group of packages that have to be delivered together, set to lowest priority
             elif warehouse.package_hash[index].notes in group_delivery:
-                self.package_whitelist[3].append(index)
+                self.package_whitelist[1].append(index)
             index += 1
 
     def print_pending_packages(self):
