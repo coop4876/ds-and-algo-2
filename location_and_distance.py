@@ -35,7 +35,7 @@ class DistanceCalculator:
         return float(distance)
     
     def get_next_package(self, undelivered_packages, start_location, package_whitelist):
-        distance = 1000
+        distance = float('inf')
 
         next_package = None
         priority = 0
