@@ -45,7 +45,7 @@ def main():
     truck_2.print_pending_packages()
 
     warehouse.print_warehouse_packages()
-    
+
     truck_2.make_deliveries(deliveries.delivered_packages, distance_calculator)
 
 
@@ -66,3 +66,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+    
