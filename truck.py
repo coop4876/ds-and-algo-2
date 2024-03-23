@@ -76,7 +76,6 @@ class Truck:
         self.total_milage += self.distance_after_last_package
         #update hub arrival time
         travel_time = distance_calculator.time_distance_calculator(self.distance_after_last_package)
-        print("distance after last: ", self.distance_after_last_package)
         self.current_time += datetime.timedelta(minutes=travel_time)
 
     #build package whitelist filled with sublists based on delivery deadlines load/deliver based on priority
@@ -134,12 +133,16 @@ class Truck:
 
     def print_pending_packages(self):
         index = 0
+        trip_milage = 0
         while index < 16:
             if self.current_deliveries[index] == None:
                 index += 1
             else:
+                trip_milage += self.current_deliveries[index].distance_from_last_location
                 print(self.current_deliveries[index])
                 index += 1
-        print("Distance to HUB after last Package: ", self.distance_after_last_package)
+        trip_milage += self.distance_after_last_package
         print("Current Milage: ", self.total_milage)
+        print("Trip Milage: ", trip_milage)
+        # print("Distance to HUB after last Package: ", self.distance_after_last_package)
         print("Time: ", self.current_time)

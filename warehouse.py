@@ -30,6 +30,12 @@ class Warehouse:
                 self.package_hash[package_id - 1] = package
         return self.package_hash
 
+    def package_lookup(self, package_id):
+        if package_id < 0 or package_id > 20:
+            return "Enter a valid package ID (1-20)"
+        elif self.package_hash[package_id - 1] != None:
+            return self.package_hash[package_id - 1]
+
     def print_warehouse_packages(self):
         index = 0
         while index < 40:
