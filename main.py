@@ -24,42 +24,46 @@ def main():
     truck_2 = Truck("Truck 2")
     deliveries = DeliveredPackages()
 
+    warehouse.print_warehouse_packages()
+
     truck_1.load_truck(distance_calculator, warehouse)
     truck_2.pass_time(65)
     truck_2.load_truck(distance_calculator, warehouse)
 
-    print("**********packages on Truck 1")
     truck_1.print_pending_packages()
 
-    print("**********packages on Truck 2")
     truck_2.print_pending_packages()
 
     truck_1.make_deliveries(deliveries.delivered_packages, distance_calculator)
+    deliveries.print_delivered_packages()
 
     truck_2.make_deliveries(deliveries.delivered_packages, distance_calculator)
+    deliveries.print_delivered_packages()
+
+    warehouse.print_warehouse_packages()
 
     truck_2.load_truck(distance_calculator, warehouse)
-    
-    print("**********packages on Truck 2 - Trip 2")
+
     truck_2.print_pending_packages()
 
     truck_2.make_deliveries(deliveries.delivered_packages, distance_calculator)
 
-    print("**********packages still in warehouse")
     warehouse.print_warehouse_packages()
 
-    print("**********delivered packages")
     deliveries.print_delivered_packages()
 
-    print("truck_1 Milage: ", truck_1.total_milage)
-    print("truck_1 Time: ", truck_1.current_time)
+    print("------------------------------------------------------------------------")
+    print("Final Milage and Times:")
+    print("Truck 1 Milage: ", truck_1.total_milage)
+    print("Truck 1 Time:   ", truck_1.current_time)
 
-    print("truck_2 Milage: ", truck_2.total_milage)
-    print("truck_2 Time: ", truck_2.current_time)
+    print("Truck 2 Milage: ", truck_2.total_milage)
+    print("Truck 2 Time:   ", truck_2.current_time)
 
-    print("Total milage: ", truck_1.total_milage + truck_2.total_milage)
+    print("Total Milage:   ", truck_1.total_milage + truck_2.total_milage)
+    print("------------------------------------------------------------------------")
 
-    print(warehouse.package_lookup(100))
+    print(warehouse.package_lookup(15))
 
 if __name__ == "__main__":
     main()

@@ -12,6 +12,7 @@ class Truck:
 
     #load packages into truck based on whitelist, selecting the next closest highest priority package for next delivery
     def load_truck(self, distance_calculator, warehouse):
+        print("Loading: ", self.name)
         #build whitelist for possible deliveries this trip
         self.build_package_whitelist(warehouse)
         #Initialize first delivery
@@ -45,6 +46,7 @@ class Truck:
 
     #deliver packages in load order, update milage and time, remove packages from current_deliveries and add to delivered_packages
     def make_deliveries(self, delivered_packages, distance_calculator):
+        print("Making Deliveries: ", self.name)
         index = 0
         while index < 16:
             #after last package on non-full truck
@@ -134,6 +136,7 @@ class Truck:
     def print_pending_packages(self):
         index = 0
         trip_milage = 0
+        print("------------------------- Packages on ", self.name, "-------------------------")
         while index < 16:
             if self.current_deliveries[index] == None:
                 index += 1
@@ -142,7 +145,8 @@ class Truck:
                 print(self.current_deliveries[index])
                 index += 1
         trip_milage += self.distance_after_last_package
+        print("------------------------------------------------------------------------")
         print("Current Milage: ", self.total_milage)
-        print("Trip Milage: ", trip_milage)
-        # print("Distance to HUB after last Package: ", self.distance_after_last_package)
-        print("Time: ", self.current_time)
+        print("Trip Milage:    ", trip_milage)
+        print("Start Time:     ", self.current_time)
+        print("------------------------------------------------------------------------")
