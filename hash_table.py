@@ -16,8 +16,6 @@ class HashTable:
 
     def __getitem__(self, key):
         value = self.values[self._index(key)]
-        # if value is None:
-        #     raise KeyError(key)
         return value
 
     def __contains__(self, key):

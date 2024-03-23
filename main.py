@@ -20,43 +20,48 @@ def main():
     warehouse = Warehouse()
     warehouse.build_undelivered_package_hash_table(package_file_path)
 
-    index = 0
-    while index < 40:
-        if warehouse.package_hash[index].deadline != 'EOD':
-            print(warehouse.package_hash[index])
-        index += 1
-
-    truck_1 = Truck("Truck1")
-    truck_2 = Truck("Truck2")
+    truck_1 = Truck("Truck 1")
+    truck_2 = Truck("Truck 2")
     deliveries = DeliveredPackages()
 
-    truck_1.load_truck(distance_calculator, warehouse)
-    truck_2.load_truck(distance_calculator, warehouse)
-
-    truck_1.make_deliveries(deliveries.delivered_packages, distance_calculator)
-    print("Truck 1 time: ", truck_1.current_time)
-    truck_2.make_deliveries(deliveries.delivered_packages, distance_calculator)
-    print("Truck 2 time: ", truck_2.current_time)
-
-    truck_1.load_truck(distance_calculator, warehouse)
-    truck_2.pass_time(50)
-    truck_2.load_truck(distance_calculator, warehouse)
-
-    truck_1.make_deliveries(deliveries.delivered_packages, distance_calculator)
-    truck_2.make_deliveries(deliveries.delivered_packages, distance_calculator)
-
-    print("**********packages still in warehouse")
     warehouse.print_warehouse_packages()
 
-    print("**********delivered packages")
+    truck_1.load_truck(distance_calculator, warehouse)
+    truck_1.print_pending_packages()
+
+    truck_2.pass_time(65)
+    truck_2.load_truck(distance_calculator, warehouse)
+    truck_2.print_pending_packages()
+
+    truck_1.make_deliveries(deliveries.delivered_packages, distance_calculator)
     deliveries.print_delivered_packages()
 
-    print("truck_1 milage: ", truck_1.total_milage)
-    print("truck_1 time: ", truck_1.current_time)
+    truck_2.make_deliveries(deliveries.delivered_packages, distance_calculator)
+    deliveries.print_delivered_packages()
 
-    print("truck_2 milage: ", truck_2.total_milage)
-    print("truck_2 time: ", truck_2.current_time)
+    warehouse.print_warehouse_packages()
 
+    truck_2.load_truck(distance_calculator, warehouse)
+    truck_2.print_pending_packages()
+
+    truck_2.make_deliveries(deliveries.delivered_packages, distance_calculator)
+
+    warehouse.print_warehouse_packages()
+
+    deliveries.print_delivered_packages()
+
+    print("------------------------------------------------------------------------")
+    print("Final Milage and Times".center(68))
+    print("Truck 1 Milage: ", truck_1.total_milage)
+    print("Truck 1 Time:   ", truck_1.current_time.strftime('%H:%M:%S %p'))
+
+    print("Truck 2 Milage: ", truck_2.total_milage)
+    print("Truck 2 Time:   ", truck_2.current_time.strftime('%H:%M:%S %p'))
+
+    print("Total Milage:   ", truck_1.total_milage + truck_2.total_milage)
+    print("------------------------------------------------------------------------")
+
+    print(warehouse.package_lookup(15))
 
 if __name__ == "__main__":
     main()

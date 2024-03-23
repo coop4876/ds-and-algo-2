@@ -8,6 +8,7 @@ class DeliveredPackages:
         self.delivered_packages[package.package_id] = package
 
     def print_delivered_packages(self):
+        print("-------------------------- Delivered Packages --------------------------")
         index = 0
         while index < 40:
             if self.delivered_packages[index] == None:
@@ -15,3 +16,4 @@ class DeliveredPackages:
             else:
                 print(self.delivered_packages[index])
                 index += 1
+        print("------------------------------------------------------------------------")
