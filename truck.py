@@ -13,6 +13,7 @@ class Truck:
     #load packages into truck based on whitelist, selecting the next closest highest priority package for next delivery
     def load_truck(self, distance_calculator, warehouse):
         print("Loading: ", self.name)
+        print("Time:    ", self.current_time)
         #build whitelist for possible deliveries this trip
         self.build_package_whitelist(warehouse)
         #Initialize first delivery
@@ -146,7 +147,7 @@ class Truck:
                 index += 1
         trip_milage += self.distance_after_last_package
         print("------------------------------------------------------------------------")
+        print("Start Time:     ", self.current_time.strftime('%H:%M:%S %p'))
         print("Current Milage: ", self.total_milage)
         print("Trip Milage:    ", trip_milage)
-        print("Start Time:     ", self.current_time)
         print("------------------------------------------------------------------------")
