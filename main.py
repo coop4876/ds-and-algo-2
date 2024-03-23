@@ -44,9 +44,10 @@ def main():
     truck_2.load_truck(distance_calculator, warehouse)
     truck_2.print_pending_packages()
 
+    warehouse.print_warehouse_packages()
+    
     truck_2.make_deliveries(deliveries.delivered_packages, distance_calculator)
 
-    warehouse.print_warehouse_packages()
 
     deliveries.print_delivered_packages()
 
