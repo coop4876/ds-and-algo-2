@@ -39,24 +39,24 @@ class DistanceCalculator:
         return float(distance)
 
     #find next closest package in highest priority whitelist
-    def get_next_package(self, undelivered_packages, start_location, package_whitelist):
+    def get_next_package(self, undelivered_packages, start_location, truck):
         #set max distance for initial comparison
         distance = float('inf')
         #find highest priority non-empty package sub-whitelist
         priority = 0
         while priority < 2:
-            if package_whitelist[priority] != []:
+            if truck.package_whitelist[priority] != []:
                 break
             else:
                 priority += 1
-        if package_whitelist[priority] == []:
+        if truck.package_whitelist[priority] == []:
             return
         #iterate through non-empty sublist to find next closest package
         index = 0
-        sublist_length = len(package_whitelist[priority])
+        sublist_length = len(truck.package_whitelist[priority])
         while index < sublist_length:
             #set the package to test distance
-            test_package = package_whitelist[priority][index]
+            test_package = truck.package_whitelist[priority][index]
             #get package address
             end_location =  undelivered_packages[test_package].address
             #find distance from last package to test_package
@@ -67,10 +67,12 @@ class DistanceCalculator:
                 distance = test_distance
             #move to next package in sublist
             index += 1
-        #set distance on closest package
+        #set distance, load_time, and loaded_on_truck on closest package
         next_package.distance_from_last_location = distance
+        next_package.load_time = truck.current_time
+        next_package.loaded_on_truck = truck.name
         #remove package from whitelist and return
-        package_whitelist[priority].remove(next_package.package_id - 1)
+        truck.package_whitelist[priority].remove(next_package.package_id - 1)
         return next_package
 
     #get distance for trip back to HUB from last package

@@ -9,9 +9,11 @@ class Package:
         self.weight = weight
         self.notes = notes
         self.status = status
+        #todo add load_time and load_on_truck updates to load_truck method
+        self.load_time = "N/A"
+        self.loaded_on_truck = "N/A"
         self.delivery_time = "N/A"
         self.distance_from_last_location = 0
-        self.delivery_time = "N/A"
 
     def __str__(self):
         status_check = ["In Warehouse - Notes", "In Warehouse", "En Route - Truck 1", "En Route - Truck 2"]

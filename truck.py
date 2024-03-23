@@ -17,7 +17,7 @@ class Truck:
         #build whitelist for possible deliveries this trip
         self.build_package_whitelist(warehouse)
         #Initialize first delivery
-        self.current_deliveries[0] = distance_calculator.get_next_package(warehouse.package_hash, "HUB", self.package_whitelist)
+        self.current_deliveries[0] = distance_calculator.get_next_package(warehouse.package_hash, "HUB", self)
         #return if no packages are available to load
         if self.current_deliveries[0] == None:
             return
@@ -26,7 +26,7 @@ class Truck:
         index = 1
         while index < 16:
             previous_address = self.current_deliveries[index - 1].address
-            next_package = distance_calculator.get_next_package(warehouse.package_hash, previous_address, self.package_whitelist)
+            next_package = distance_calculator.get_next_package(warehouse.package_hash, previous_address, self)
             #all available packages are loaded, return to hub after
             if next_package is None:
                 distance_to_hub = distance_calculator.distance_to_hub(self.current_deliveries[index - 1].address)
