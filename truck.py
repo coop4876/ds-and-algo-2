@@ -10,6 +10,7 @@ class Truck:
         self.distance_after_last_package = 0
         self.package_whitelist = []
 
+    #load packages into truck based on whitelist, selecting the next closest highest priority package for next delivery
     def load_truck(self, distance_calculator, warehouse):
         #build whitelist for possible deliveries this trip
         self.build_package_whitelist(warehouse)
@@ -42,10 +43,11 @@ class Truck:
                 self.current_deliveries[index] = next_package
                 index += 1
 
+    #deliver packages in load order, update milage and time, remove packages from current_deliveries and add to delivered_packages
     def make_deliveries(self, delivered_packages, distance_calculator):
         index = 0
         while index < 16:
-            #last package on non-full truck
+            #after last package on non-full truck
             if self.current_deliveries[index] is None:
                 #update milage
                 self.total_milage += self.distance_after_last_package
@@ -77,16 +79,17 @@ class Truck:
         print("distance after last: ", self.distance_after_last_package)
         self.current_time += datetime.timedelta(minutes=travel_time)
 
-    #todo remove p3, group delivery goes in p1
+    #build package whitelist filled with sublists based on delivery deadlines load/deliver based on priority
     def build_package_whitelist(self, warehouse):
+        #initialize priority lists
         p0 = []
         p1 = []
         p2 = []
-        p3 = []
-        self.package_whitelist = [p0, p1, p2, p3]
+        #add priority lists to whitelist
+        self.package_whitelist = [p0, p1, p2]
+        #set conditions to compare against for note cases
         loaded_or_delivered = ["En Route - Truck 1", "En Route - Truck 2", "Delivered - Truck 1", "Delivered - Truck 2"]
         group_delivery = ["Must be delivered with 15, 19", "Must be delivered with 13, 19", "Must be delivered with 13, 15"]
-
         #set package delay time
         delay_time = datetime.datetime(year= 2024, month= 3, day= 15, hour=9, minute=5)
         #set address correction time
@@ -100,7 +103,7 @@ class Truck:
                 priority = 1
             else:
                 priority = 2
-
+            #handle different notes cases
             #Case: already loaded or delivered
             if warehouse.package_hash[index].status in loaded_or_delivered:
                 pass
@@ -120,10 +123,14 @@ class Truck:
                     self.current_time >= correct_address_time):
                 warehouse.package_hash[index].address = "410 S State St (84111)"
                 self.package_whitelist[priority].append(index)
-            #Case: group of packages that have to be delivered together, set to lowest priority
+            #Case: group of packages that have to be delivered together, 10:30 deadline so
             elif warehouse.package_hash[index].notes in group_delivery:
                 self.package_whitelist[1].append(index)
             index += 1
+
+    #pass time on truck, needed for packages that don't arrive in warehouse until later in day
+    def pass_time(self, minutes_to_pass):
+        self.current_time += datetime.timedelta(minutes=minutes_to_pass)
 
     def print_pending_packages(self):
         index = 0
@@ -136,6 +143,3 @@ class Truck:
         print("Distance to HUB after last Package: ", self.distance_after_last_package)
         print("Current Milage: ", self.total_milage)
         print("Time: ", self.current_time)
-
-    def pass_time(self, minutes_to_pass):
-        self.current_time += datetime.timedelta(minutes=minutes_to_pass)

@@ -8,6 +8,7 @@ class Warehouse:
         self.package_hash = HashTable(capacity=40)
         self.current_time = datetime.datetime(year= 2024, month= 3, day= 15, hour=8, minute=0)
 
+    #builds a hashtable of packages from provided csv
     def build_undelivered_package_hash_table(self, package_file_path):
         with open(package_file_path, 'r') as package_file:
             csv_reader = csv.reader(package_file)
