@@ -51,7 +51,14 @@ class UserInterface:
                 #todo time argument?
                 self.print_priority_list()
             elif user_input == "help":
-                #todo print more details on each option
+                print("------------------------------------------------------------------------")
+                print("main      | Print full main program output")
+                print("delivered | Print a list of all delivered packages at EoD")
+                print("package   | Select a package ID and print the status of that package at a specified time (24:00 format)")
+                print("priority  | Print a list of packages at EoD grouped by delivery deadline")
+                print("help      | Display details on input options")
+                print("quit      | Quit the program")
+                print("------------------------------------------------------------------------")
                 pass
             elif user_input == "quit":
                 pass
