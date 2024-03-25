@@ -28,7 +28,9 @@ class UserInterface:
     def get_input(self):
         user_input = None
         while user_input != "quit":
+            print("------------------------------------------------------------------------")
             print("Options: main | delivered | package | priority | help | quit")
+            print("------------------------------------------------------------------------")
             user_input = input("Make selection:")
             if user_input == "main":
                 print("\n".join(self.main_output))
@@ -38,7 +40,7 @@ class UserInterface:
             elif user_input == "package":
                 package_id = input("Package ID: ")
                 package_id = int(package_id)
-                while package_id > len(self.delivered_packages.delivered_packages):
+                while package_id > len(self.delivered_packages.delivered_packages) or package_id < 1:
                     print("Enter a valid package ID ( 1 -", len(self.delivered_packages.delivered_packages), ")")
                     package_id = input("Package ID: ")
                     package_id = int(package_id)
