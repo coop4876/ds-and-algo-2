@@ -1,9 +1,12 @@
 
 #todo add output to each package as it's delivered?
+#todo add next location prop to package?
+#todo add delivery route completion time list to trucks to rebuild delivery route for interface output?
 
-from datetime import datetime
+import datetime
 from io import StringIO
 import sys
+import copy
 
 
 class MainOutputCapture(list):
@@ -34,8 +37,16 @@ class UserInterface:
                 self.delivered_packages.print_delivered_packages()
             elif user_input == "package":
                 package_id = input("Package ID: ")
-                lookup_time = input("Lookup Time: ")
-                #todo switch all times to 24:00, validate user input, convert to datetime object
+                package_id = int(package_id)
+                while package_id > len(self.delivered_packages.delivered_packages):
+                    print("Enter a valid package ID ( 1 -", len(self.delivered_packages.delivered_packages), ")")
+                    package_id = input("Package ID: ")
+                    package_id = int(package_id)
+                input_time = input("Lookup Time (24:00 format): ")
+                hours, minutes = map(int, input_time.split(":"))
+                #todo try catch here for invalid input?
+                lookup_time = datetime.datetime(year= 2024, month= 3, day= 15, hour=hours, minute=minutes)
+                self.package_time_lookup(package_id, lookup_time)
             elif user_input =="priority":
                 #todo time argument?
                 self.print_priority_list()
@@ -64,18 +75,29 @@ class UserInterface:
 
         print("------------------------------------------------------------------------")
         print("P0 Packages:")
+        print("------------------------------------------------------------------------")
         print(*p0, sep = "\n")
         print("------------------------------------------------------------------------")
         print("P1 Packages:")
+        print("------------------------------------------------------------------------")
         print(*p1, sep = "\n")
         print("------------------------------------------------------------------------")
         print("P2 Packages:")
+        print("------------------------------------------------------------------------")
         print(*p2, sep = "\n")
         print("------------------------------------------------------------------------")
 
     def package_time_lookup(self, package_id, time):
-        #todo if time > delivery time, print package
-        #todo if delivery time > time > load time print loaded on truck
-        #todo if time < load time, print in warehouse
-        #todo create new package object or modify print string?
-        pass
+        print("------------------------------------------------------------------------")
+        print("Status of package ID", package_id, "at", time.strftime('%H:%M:%S'), ":")
+        print("------------------------------------------------------------------------")
+        display_package = copy.copy(self.delivered_packages.delivered_packages[package_id - 1])
+        if time > display_package.delivery_time:
+            print(display_package)
+        elif time > display_package.load_time:
+            display_package.status = "En Route - " + display_package.loaded_on_truck
+            print(display_package)
+        else:
+            display_package.status = "In Warehouse"
+            print(display_package)
+        print("------------------------------------------------------------------------")

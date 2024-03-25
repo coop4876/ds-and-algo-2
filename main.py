@@ -70,9 +70,9 @@ def main():
         print("------------------------------------------------------------------------")
         print("Final Milage and Times".center(68))
         print("Truck 1 Milage: ", truck_1.total_milage)
-        print("Truck 1 Time:   ", truck_1.current_time.strftime('%H:%M:%S %p'))
+        print("Truck 1 Time:   ", truck_1.current_time.strftime('%H:%M:%S'))
         print("Truck 2 Milage: ", truck_2.total_milage)
-        print("Truck 2 Time:   ", truck_2.current_time.strftime('%H:%M:%S %p'))
+        print("Truck 2 Time:   ", truck_2.current_time.strftime('%H:%M:%S'))
         print("Total Milage:   ", truck_1.total_milage + truck_2.total_milage)
         print("------------------------------------------------------------------------")
 
