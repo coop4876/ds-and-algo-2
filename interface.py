@@ -1,14 +1,9 @@
-
-#todo add output to each package as it's delivered?
-#todo add next location prop to package?
-#todo add delivery route completion time list to trucks to rebuild delivery route for interface output?
-
 import datetime
 from io import StringIO
 import sys
 import copy
 
-
+#class to capture output of main() so it can be displayed as an interface option
 class MainOutputCapture(list):
     def __enter__(self):
         self._stdout = sys.stdout
@@ -24,7 +19,7 @@ class UserInterface:
         self.main_output = main_output
         self.delivered_packages = delivered_packages
 
-    #todo add truck option, print status at given time? might be too much extra
+    #prompt user for input
     def get_input(self):
         user_input = None
         while user_input != "quit":
@@ -32,46 +27,33 @@ class UserInterface:
             print("Options: main | delivered | package | priority | help | quit")
             print("------------------------------------------------------------------------")
             user_input = input("Make selection:")
-            if user_input == "main":
+            #print main() output
+            if user_input == "main": 
                 print("\n".join(self.main_output))
-            elif user_input == "delivered":
-                #todo sort delivered list so they're in order of delivery time?
+            #print delivered packages hash table
+            elif user_input == "delivered": 
                 self.delivered_packages.print_delivered_packages()
-            elif user_input == "package":
-                package_id = input("Package ID: ")
-                package_id = int(package_id)
-                while package_id > len(self.delivered_packages.delivered_packages) or package_id < 1:
-                    print("Enter a valid package ID ( 1 -", len(self.delivered_packages.delivered_packages), ")")
-                    package_id = input("Package ID: ")
-                    package_id = int(package_id)
-                input_time = input("Lookup Time (24:00 format): ")
-                hours, minutes = map(int, input_time.split(":"))
-                #todo try catch here for invalid input?
-                lookup_time = datetime.datetime(year= 2024, month= 3, day= 15, hour=hours, minute=minutes)
-                self.package_time_lookup(package_id, lookup_time)
-            elif user_input =="priority":
-                #todo time argument?
+            #lookup package status by ID and specified time
+            elif user_input == "package": 
+                self.package_time_lookup()
+            #print EoD status of packages separated by deadline
+            elif user_input =="priority": 
                 self.print_priority_list()
-            elif user_input == "help":
-                print("------------------------------------------------------------------------")
-                print("main      | Print full main program output")
-                print("delivered | Print a list of all delivered packages at EoD")
-                print("package   | Select a package ID and print the status of that package at a specified time (24:00 format)")
-                print("priority  | Print a list of packages at EoD grouped by delivery deadline")
-                print("help      | Display details on input options")
-                print("quit      | Quit the program")
-                print("------------------------------------------------------------------------")
-                pass
+            #print details about each option to user
+            elif user_input == "help": 
+                self.get_help()
+            #quit program
             elif user_input == "quit":
                 pass
-            else:
+            else:#prompt for input again if invalid option entered
                 print("Please make a valid selection")
 
     def print_priority_list(self):
+        #initialize lists for each priority level
         p0 = []
         p1 = []
         p2 = []
-
+        #loop through delivered packages and append to approproiate priority list based on deadline
         index = 0
         while index < len(self.delivered_packages.delivered_packages):
             if self.delivered_packages.delivered_packages[index].deadline == "9:00 AM":
@@ -81,7 +63,7 @@ class UserInterface:
             else:
                 p2.append(self.delivered_packages.delivered_packages[index])
             index += 1
-
+        #print headers for each list followed by the list of packages
         print("------------------------------------------------------------------------")
         print("P0 Packages:")
         print("------------------------------------------------------------------------")
@@ -96,17 +78,50 @@ class UserInterface:
         print(*p2, sep = "\n")
         print("------------------------------------------------------------------------")
 
-    def package_time_lookup(self, package_id, time):
+    #recreates status of single package at user specified time
+    def package_time_lookup(self):
+        #prompt for package ID and convert to int
+        package_id = input("Package ID: ")
+        package_id = int(package_id)
+        #verify package is in range and repeat input prompt if not
+        while package_id > len(self.delivered_packages.delivered_packages) or package_id < 1:
+            print("Enter a valid package ID ( 1 -", len(self.delivered_packages.delivered_packages), ")")
+            package_id = input("Package ID: ")
+            package_id = int(package_id)
+        #prompt user for lookup time
+        input_time = input("Lookup Time (24:00 format): ")
+        #split to hours and minutes varialbel and convert to datetime object
+        hours, minutes = map(int, input_time.split(":"))
+        lookup_time = datetime.datetime(year= 2024, month= 3, day= 15, hour=hours, minute=minutes)
+        #print header for package
         print("------------------------------------------------------------------------")
-        print("Status of package ID", package_id, "at", time.strftime('%H:%M:%S'), ":")
+        print("Status of package ID", package_id, "at", lookup_time.strftime('%H:%M:%S'), ":")
         print("------------------------------------------------------------------------")
+        #make shallow copy of package to modify
         display_package = copy.copy(self.delivered_packages.delivered_packages[package_id - 1])
-        if time > display_package.delivery_time:
+        #package delivered, print EoD status (as is)
+        if lookup_time > display_package.delivery_time:
             print(display_package)
-        elif time > display_package.load_time:
+        #package loaded, update status with En Route and carrying truck
+        elif lookup_time > display_package.load_time:
             display_package.status = "En Route - " + display_package.loaded_on_truck
             print(display_package)
+        #package not yet loaded, set status to beginning of day status (In Warehouse/In Warehouse - Notes)
         else:
-            display_package.status = "In Warehouse"
+            if display_package.notes != '':
+                display_package.status = "In Warehouse - Notes"
+            else:
+                display_package.status = "In Warehouse"
             print(display_package)
+        print("------------------------------------------------------------------------")
+
+    #prints additional details for each option to user
+    def get_help(self):
+        print("------------------------------------------------------------------------")
+        print("main      | Print full main program output")
+        print("delivered | Print a list of all delivered packages at EoD")
+        print("package   | Select a package ID and print the status of that package at a specified time (24:00 format)")
+        print("priority  | Print a list of packages at EoD grouped by delivery deadline")
+        print("help      | Display details on input options")
+        print("quit      | Quit the program")
         print("------------------------------------------------------------------------")

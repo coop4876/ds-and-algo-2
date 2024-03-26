@@ -14,12 +14,15 @@ class Package:
         self.delivery_time = "N/A"
         self.distance_from_last_location = 0
 
+    #define print method for packages
     def __str__(self):
         status_check = ["In Warehouse - Notes", "In Warehouse", "En Route - Truck 1", "En Route - Truck 2"]
+        #if package is delivered, add delivery time to status
         if self.status not in status_check:
             status_string = str(self.status) + " @ " + str(self.delivery_time.strftime('%H:%M:%S'))
         else:
             status_string = str(self.status)
+        #print value headers and values specifc to package formatted to fill a consistent table
         print_string = 'Package ID: {:02d}'.format(self.package_id) \
             + ' | Package Weight: {:02}'.format(self.weight) \
             + ' | Package Status: {:<30s}'.format(status_string) \

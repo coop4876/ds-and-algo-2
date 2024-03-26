@@ -30,23 +30,27 @@ class Warehouse:
                 self.package_hash[package_id - 1] = package
         return self.package_hash
 
+    #method for looking up packages
     def package_lookup(self, package_id):
-        if package_id < 0 or package_id > 20:
-            return "Enter a valid package ID (1-20)"
+        if package_id < 0 or package_id > 40:
+            return "Enter a valid package ID (1-40)"
         elif self.package_hash[package_id - 1] != None:
             return self.package_hash[package_id - 1]
 
+    #prints packages currently in warehouse (not en route or delivered)
     def print_warehouse_packages(self):
         package_count = 0
         print("------------------------- Packages in Warehouse ------------------------")
         index = 0
         while index < 40:
+            #if status is In Warehouse or In Warehouse - Notes, print package
             if self.package_hash[index].status == "In Warehouse" or self.package_hash[index].status == "In Warehouse - Notes":
                 print(self.package_hash[index])
                 index += 1
                 package_count += 1
             else:
                 index += 1
+        #print when all packages have been loaded or delivered
         if package_count == 0:
             print("All Packages En Route or Delivered".center(68))
         print("------------------------------------------------------------------------")
