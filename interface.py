@@ -128,13 +128,13 @@ class UserInterface:
         #8:35-9:25, 9:35-10:25, 12:03-1:12
         #go through all packages for each, if load_time < time above < delivery time, add to package list
         #linked list, add last package/nextpackage properties to package class?
+        #allow user input for time
         pass
 
     #prints individual milage and end time as well as combined milage for both trucks
     def final(self):
         #todo
-        #unpack from list
-        #print time and milage for both trucks and sum for total milage 
+        #capture from main and pass over like main() output
         pass
 
     #prints additional details for each option to user
