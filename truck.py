@@ -9,7 +9,7 @@ class Truck:
         self.current_deliveries = HashTable(capacity=16)
         self.distance_after_last_package = 0
         self.package_whitelist = []
-        self.fist_package = []
+        self.first_package = []
 
     #load packages into truck based on whitelist, selecting the next closest highest priority package for next delivery
     def load_truck(self, distance_calculator, warehouse):
@@ -22,7 +22,7 @@ class Truck:
         #return if no packages are available to load
         if self.current_deliveries[0] == None:
             return
-        self.fist_package.append(self.current_deliveries[0].package_id)
+        self.first_package.append(self.current_deliveries[0].package_id)
         self.current_deliveries[0].status = "En Route - " + self.name
         #load subsequent deliveries until truck is full or all packages are loaded
         index = 1
@@ -40,6 +40,7 @@ class Truck:
                 self.current_deliveries[index] = next_package
                 distance_to_hub = distance_calculator.distance_to_hub(next_package.address)
                 self.distance_after_last_package = distance_to_hub
+                self.current_deliveries[index - 1].next_package_pointer = self.current_deliveries[index].package_id
                 break
             else:
                 #normal loading procedure

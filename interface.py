@@ -131,7 +131,29 @@ class UserInterface:
         #go through all packages for each, if load_time < time above < delivery time, add to package list
         #linked list, add last package/nextpackage properties to package class?
         #allow user input for time
-        pass
+        hours = 9
+        minutes = 31
+        sample_time = datetime.datetime(year= 2024, month= 3, day= 15, hour=hours, minute=minutes)
+        print()
+
+        #todo clean up output, allow user to input time
+        for truck in self.truck_list:
+            print(truck.name)
+            print(truck.first_package)
+            for package in truck.first_package:
+                print("new trip")
+                current_package = self.delivered_packages.delivered_packages[package - 1]
+                index = 0
+                while index < 16:
+                    if current_package.load_time <= sample_time and current_package.delivery_time <= sample_time:
+                        print("Already delivered:")
+                        print(current_package)
+                    elif current_package.load_time <= sample_time and current_package.delivery_time > sample_time:
+                        print("En Route")
+                        print(current_package)
+                    if current_package.next_package_pointer != None:
+                        current_package = self.delivered_packages.delivered_packages[current_package.next_package_pointer - 1]
+                    index += 1
 
     #prints additional details for each option to user
     def get_help(self):
