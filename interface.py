@@ -15,10 +15,11 @@ class MainOutputCapture(list):
         sys.stdout = self._stdout
 
 class UserInterface:
-    def __init__(self, main_output, final_output, delivered_packages):
+    def __init__(self, main_output, final_output, delivered_packages, trucks):
         self.main_output = main_output
         self.final_output = final_output
         self.delivered_packages = delivered_packages
+        self.truck_list = trucks
 
     #prompt user for input
     def get_input(self):

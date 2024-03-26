@@ -13,6 +13,7 @@ class Package:
         self.loaded_on_truck = "N/A"
         self.delivery_time = "N/A"
         self.distance_from_last_location = 0
+        self.next_package = None
 
     #define print method for packages
     def __str__(self):
