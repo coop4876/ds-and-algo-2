@@ -15,8 +15,9 @@ class MainOutputCapture(list):
         sys.stdout = self._stdout
 
 class UserInterface:
-    def __init__(self, main_output, delivered_packages, trucks):
+    def __init__(self, main_output, final_output, delivered_packages):
         self.main_output = main_output
+        self.final_output = final_output
         self.delivered_packages = delivered_packages
 
     #prompt user for input
@@ -45,7 +46,7 @@ class UserInterface:
             elif user_input =="trucks":
                 self.trucks()
             elif user_input =="final":
-                self.final()
+                print("\n".join(self.final_output))
             #print details about each option to user
             elif user_input == "help": 
                 self.get_help()
@@ -129,12 +130,6 @@ class UserInterface:
         #go through all packages for each, if load_time < time above < delivery time, add to package list
         #linked list, add last package/nextpackage properties to package class?
         #allow user input for time
-        pass
-
-    #prints individual milage and end time as well as combined milage for both trucks
-    def final(self):
-        #todo
-        #capture from main and pass over like main() output
         pass
 
     #prints additional details for each option to user

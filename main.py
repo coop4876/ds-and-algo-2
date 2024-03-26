@@ -67,19 +67,22 @@ def main():
         delivered_packages.print_delivered_packages()
 
         #print final milage and time stats for both trucks and combined milage
-        print("------------------------------------------------------------------------")
-        print("Final Milage and Times".center(68))
-        print("Truck 1 Milage: ", truck_1.total_milage)
-        print("Truck 1 Time:   ", truck_1.current_time.strftime('%H:%M:%S'))
-        print("Truck 2 Milage: ", truck_2.total_milage)
-        print("Truck 2 Time:   ", truck_2.current_time.strftime('%H:%M:%S'))
-        print("Total Milage:   ", truck_1.total_milage + truck_2.total_milage)
-        print("------------------------------------------------------------------------")
+        with MainOutputCapture() as final_output:
+            print("------------------------------------------------------------------------")
+            print("Final Milage and Times".center(68))
+            print("Truck 1 Milage: ", truck_1.total_milage)
+            print("Truck 1 Time:   ", truck_1.current_time.strftime('%H:%M:%S'))
+            print("Truck 2 Milage: ", truck_2.total_milage)
+            print("Truck 2 Time:   ", truck_2.current_time.strftime('%H:%M:%S'))
+            print("Total Milage:   ", truck_1.total_milage + truck_2.total_milage)
+            print("------------------------------------------------------------------------")
+        
+        print(final_output)
 
     #create list of trucks to pass to user_interface
     trucks = [truck_1, truck_2]
     #initialize user_interface
-    user_interface = UserInterface(main_output, delivered_packages, trucks)
+    user_interface = UserInterface(main_output, final_output, delivered_packages)
     #allow user interaction
     user_interface.get_input()
 
