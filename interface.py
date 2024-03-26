@@ -15,7 +15,7 @@ class MainOutputCapture(list):
         sys.stdout = self._stdout
 
 class UserInterface:
-    def __init__(self, main_output, delivered_packages):
+    def __init__(self, main_output, delivered_packages, trucks):
         self.main_output = main_output
         self.delivered_packages = delivered_packages
 
@@ -24,7 +24,9 @@ class UserInterface:
         user_input = None
         while user_input != "quit":
             print("------------------------------------------------------------------------")
-            print("Options: main | delivered | package | priority | help | quit")
+            print("Options:")
+            print("----------")
+            print("main | delivered | package | priority | trucks | final | help | quit")
             print("------------------------------------------------------------------------")
             user_input = input("Make selection:")
             #print main() output
@@ -39,6 +41,11 @@ class UserInterface:
             #print EoD status of packages separated by deadline
             elif user_input =="priority": 
                 self.print_priority_list()
+            #print full package status for both trucks at 3 separate times, print final truck milage/times
+            elif user_input =="trucks":
+                self.trucks()
+            elif user_input =="final":
+                self.final()
             #print details about each option to user
             elif user_input == "help": 
                 self.get_help()
@@ -115,6 +122,21 @@ class UserInterface:
             print(display_package)
         print("------------------------------------------------------------------------")
 
+    #builds and prints truck status at 3 times specified by project requirements
+    def trucks(self):
+        #todo
+        #8:35-9:25, 9:35-10:25, 12:03-1:12
+        #go through all packages for each, if load_time < time above < delivery time, add to package list
+        #linked list, add last package/nextpackage properties to package class?
+        pass
+
+    #prints individual milage and end time as well as combined milage for both trucks
+    def final(self):
+        #todo
+        #unpack from list
+        #print time and milage for both trucks and sum for total milage 
+        pass
+
     #prints additional details for each option to user
     def get_help(self):
         print("------------------------------------------------------------------------")
@@ -122,6 +144,8 @@ class UserInterface:
         print("delivered | Print a list of all delivered packages at EoD")
         print("package   | Select a package ID and print the status of that package at a specified time (24:00 format)")
         print("priority  | Print a list of packages at EoD grouped by delivery deadline")
+        print("trucks    | Print full load details for trucks at 3 separate times and final truck milage/time stats")
+        print("final     | Print final milage and time stats for each truck and total combined milage")
         print("help      | Display details on input options")
         print("quit      | Quit the program")
         print("------------------------------------------------------------------------")

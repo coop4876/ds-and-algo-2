@@ -76,8 +76,10 @@ def main():
         print("Total Milage:   ", truck_1.total_milage + truck_2.total_milage)
         print("------------------------------------------------------------------------")
 
+    #create list of trucks to pass to user_interface
+    trucks = [truck_1, truck_2]
     #initialize user_interface
-    user_interface = UserInterface(main_output, delivered_packages)
+    user_interface = UserInterface(main_output, delivered_packages, trucks)
     #allow user interaction
     user_interface.get_input()
 
