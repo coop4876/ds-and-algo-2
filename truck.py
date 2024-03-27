@@ -52,6 +52,8 @@ class Truck:
     #deliver packages in load order, update milage and time, remove packages from current_deliveries and add to delivered_packages
     def make_deliveries(self, delivered_packages, distance_calculator):
         print("Making Deliveries: ", self.name)
+        print("------------------------------------------------------------------------")
+        print("Departing HUB @ " + str(self.current_time.strftime('%H:%M:%S')))
         index = 0
         while index < 16:
             #after last package on non-full truck
@@ -61,6 +63,7 @@ class Truck:
                 #update current time
                 travel_time = distance_calculator.time_distance_calculator(self.distance_after_last_package)
                 self.current_time += datetime.timedelta(minutes=travel_time)
+                print("Returning to HUB")
                 return
             else:
                 #get current delivery
@@ -69,6 +72,8 @@ class Truck:
                 travel_time = distance_calculator.time_distance_calculator(current_delivery.distance_from_last_location)
                 self.total_milage += current_delivery.distance_from_last_location
                 self.current_time += datetime.timedelta(minutes=travel_time)
+                #print delivery message
+                print("Delivering package ID {:02d}".format(current_delivery.package_id)  + " @ " + str(self.current_time.strftime('%H:%M:%S')) + " to " + str(current_delivery.address))
                 #update package attributes
                 current_delivery.delivery_time = self.current_time
                 current_delivery.status = "Delivered - " + self.name
@@ -81,6 +86,7 @@ class Truck:
                 index += 1
         #update milage for trip back to hub
         self.total_milage += self.distance_after_last_package
+        print("Returning to HUB")
         #update hub arrival time
         travel_time = distance_calculator.time_distance_calculator(self.distance_after_last_package)
         self.current_time += datetime.timedelta(minutes=travel_time)
