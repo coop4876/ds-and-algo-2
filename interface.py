@@ -124,36 +124,42 @@ class UserInterface:
             print(display_package)
         print("------------------------------------------------------------------------")
 
-    #builds and prints truck status at 3 times specified by project requirements
+    #builds and prints status of both trucks at a time specified by the user
     def trucks(self):
-        #todo
-        #8:35-9:25, 9:35-10:25, 12:03-1:12
-        #go through all packages for each, if load_time < time above < delivery time, add to package list
-        #linked list, add last package/nextpackage properties to package class?
-        #allow user input for time
-        hours = 9
-        minutes = 31
-        sample_time = datetime.datetime(year= 2024, month= 3, day= 15, hour=hours, minute=minutes)
-        print()
-
-        #todo clean up output, allow user to input time
+        input_time = input("Lookup Time (24:00 format): ")
+        hours, minutes = map(int, input_time.split(":"))
+        input_time = datetime.datetime(year= 2024, month= 3, day= 15, hour=hours, minute=minutes)
+        #todo clean up output
         for truck in self.truck_list:
-            print(truck.name)
-            print(truck.first_package)
+            print("------------------------------------------------------------------------")
+            print(truck.name, "at", input_time.strftime('%H:%M:%S'))
             for package in truck.first_package:
-                print("new trip")
+                delivered_packages = []
+                en_route_packages = []
                 current_package = self.delivered_packages.delivered_packages[package - 1]
                 index = 0
-                while index < 16:
-                    if current_package.load_time <= sample_time and current_package.delivery_time <= sample_time:
-                        print("Already delivered:")
-                        print(current_package)
-                    elif current_package.load_time <= sample_time and current_package.delivery_time > sample_time:
-                        print("En Route")
-                        print(current_package)
+                while index < 16 and current_package.next_package_pointer != None:
+                    if current_package.load_time <= input_time and current_package.delivery_time <= input_time:
+                        delivered_packages.append(current_package)
+                    elif current_package.load_time <= input_time and current_package.delivery_time > input_time:
+                        en_route_package = copy.copy(current_package)
+                        en_route_package.status = "En Route - " + en_route_package.loaded_on_truck
+                        if current_package not in en_route_packages:
+                            en_route_packages.append(en_route_package)
+                    #move to next package
                     if current_package.next_package_pointer != None:
                         current_package = self.delivered_packages.delivered_packages[current_package.next_package_pointer - 1]
                     index += 1
+                if en_route_packages != []:
+                    if delivered_packages != []:
+                        print("------------------------------------------------------------------------")
+                        print("Already delivered this trip:")
+                        print("------------------------------------------------------------------------")
+                        print(*delivered_packages, sep = "\n")
+                    print("------------------------------------------------------------------------")
+                    print("En Route packages:")
+                    print("------------------------------------------------------------------------")
+                    print(*en_route_packages, sep = "\n")
 
     #prints additional details for each option to user
     def get_help(self):
