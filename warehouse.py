@@ -23,9 +23,9 @@ class Warehouse:
                 weight = row[6]
                 notes = row[7]
                 if notes != '':
-                    status = "In Warehouse - Notes"
+                    status = "At Hub - Notes"
                 else:
-                    status = "In Warehouse"
+                    status = "At Hub"
                 package = Package(package_id, address, city, state, zip, deadline, weight, status, notes)
                 self.package_hash[package_id - 1] = package
         return self.package_hash
@@ -37,14 +37,14 @@ class Warehouse:
         elif self.package_hash[package_id - 1] != None:
             return self.package_hash[package_id - 1]
 
-    #prints packages currently in warehouse (not en route or delivered)
+    #prints packages currently At Hub (not en route or delivered)
     def print_warehouse_packages(self):
         package_count = 0
-        print("------------------------- Packages in Warehouse ------------------------")
+        print("------------------------- Packages At Hub ------------------------")
         index = 0
         while index < 40:
-            #if status is In Warehouse or In Warehouse - Notes, print package
-            if self.package_hash[index].status == "In Warehouse" or self.package_hash[index].status == "In Warehouse - Notes":
+            #if status is At Hub or At Hub - Notes, print package
+            if self.package_hash[index].status == "At Hub" or self.package_hash[index].status == "At Hub - Notes":
                 print(self.package_hash[index])
                 index += 1
                 package_count += 1

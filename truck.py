@@ -114,7 +114,7 @@ class Truck:
             if warehouse.package_hash[index].status in loaded_or_delivered:
                 pass
             #Case: no notes
-            elif warehouse.package_hash[index].status == "In Warehouse":
+            elif warehouse.package_hash[index].status == "At Hub":
                 self.package_whitelist[priority].append(index)
             #Case: can only be on truck 2
             elif(warehouse.package_hash[index].notes == "Can only be on truck 2" and \
@@ -134,7 +134,7 @@ class Truck:
                 self.package_whitelist[1].append(index)
             index += 1
 
-    #pass time on truck, needed for packages that don't arrive in warehouse until later in day
+    #pass time on truck, needed for packages that don't arrive At Hub until later in day
     def pass_time(self, minutes_to_pass):
         self.current_time += datetime.timedelta(minutes=minutes_to_pass)
 

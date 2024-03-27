@@ -27,7 +27,7 @@ class UserInterface:
         while user_input != "quit":
             print("------------------------------------------------------------------------")
             print("Options:")
-            print("----------")
+            print("")
             print("main | delivered | package | priority | trucks | final | help | quit")
             print("------------------------------------------------------------------------")
             user_input = input("Make selection:")
@@ -115,12 +115,12 @@ class UserInterface:
         elif lookup_time > display_package.load_time:
             display_package.status = "En Route - " + display_package.loaded_on_truck
             print(display_package)
-        #package not yet loaded, set status to beginning of day status (In Warehouse/In Warehouse - Notes)
+        #package not yet loaded, set status to beginning of day status (At Hub/At Hub - Notes)
         else:
             if display_package.notes != '':
-                display_package.status = "In Warehouse - Notes"
+                display_package.status = "At Hub - Notes"
             else:
-                display_package.status = "In Warehouse"
+                display_package.status = "At Hub"
             print(display_package)
         print("------------------------------------------------------------------------")
 
@@ -129,7 +129,6 @@ class UserInterface:
         input_time = input("Lookup Time (24:00 format): ")
         hours, minutes = map(int, input_time.split(":"))
         input_time = datetime.datetime(year= 2024, month= 3, day= 15, hour=hours, minute=minutes)
-        #todo clean up output
         for truck in self.truck_list:
             print("------------------------------------------------------------------------")
             print(truck.name, "at", input_time.strftime('%H:%M:%S'))
@@ -138,7 +137,7 @@ class UserInterface:
                 en_route_packages = []
                 current_package = self.delivered_packages.delivered_packages[package - 1]
                 index = 0
-                while index < 16 and current_package.next_package_pointer != None:
+                while index < 16:
                     if current_package.load_time <= input_time and current_package.delivery_time <= input_time:
                         delivered_packages.append(current_package)
                     elif current_package.load_time <= input_time and current_package.delivery_time > input_time:

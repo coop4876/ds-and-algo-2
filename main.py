@@ -50,14 +50,14 @@ def main():
         truck_2.make_deliveries(delivered_packages.delivered_packages, distance_calculator)
         delivered_packages.print_delivered_packages()
 
-        #print remaining packages in warehouse
+        #print remaining packages At Hub
         warehouse.print_warehouse_packages()
 
         #second load on truck 2, print results
         truck_2.load_truck(distance_calculator, warehouse)
         truck_2.print_pending_packages()
 
-        #print packages still in warehouse to show they're all delivered on en route
+        #print packages still At Hub to show they're all delivered on en route
         warehouse.print_warehouse_packages()
 
         #send truck 2 for deliveries
