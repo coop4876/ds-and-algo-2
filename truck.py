@@ -9,6 +9,7 @@ class Truck:
         self.current_deliveries = HashTable(capacity=16)
         self.distance_after_last_package = 0
         self.package_whitelist = []
+        self.first_package = []
 
     #load packages into truck based on whitelist, selecting the next closest highest priority package for next delivery
     def load_truck(self, distance_calculator, warehouse):
@@ -17,16 +18,17 @@ class Truck:
         #build whitelist for possible deliveries this trip
         self.build_package_whitelist(warehouse)
         #Initialize first delivery
-        self.current_deliveries[0] = distance_calculator.get_next_package(warehouse.package_hash, "HUB", self.package_whitelist)
+        self.current_deliveries[0] = distance_calculator.get_next_package(warehouse.package_hash, "HUB", self)
         #return if no packages are available to load
         if self.current_deliveries[0] == None:
             return
+        self.first_package.append(self.current_deliveries[0].package_id)
         self.current_deliveries[0].status = "En Route - " + self.name
         #load subsequent deliveries until truck is full or all packages are loaded
         index = 1
         while index < 16:
             previous_address = self.current_deliveries[index - 1].address
-            next_package = distance_calculator.get_next_package(warehouse.package_hash, previous_address, self.package_whitelist)
+            next_package = distance_calculator.get_next_package(warehouse.package_hash, previous_address, self)
             #all available packages are loaded, return to hub after
             if next_package is None:
                 distance_to_hub = distance_calculator.distance_to_hub(self.current_deliveries[index - 1].address)
@@ -38,16 +40,20 @@ class Truck:
                 self.current_deliveries[index] = next_package
                 distance_to_hub = distance_calculator.distance_to_hub(next_package.address)
                 self.distance_after_last_package = distance_to_hub
+                self.current_deliveries[index - 1].next_package_pointer = self.current_deliveries[index].package_id
                 break
             else:
                 #normal loading procedure
                 next_package.status = "En Route - " + self.name
                 self.current_deliveries[index] = next_package
+                self.current_deliveries[index - 1].next_package_pointer = self.current_deliveries[index].package_id
                 index += 1
 
     #deliver packages in load order, update milage and time, remove packages from current_deliveries and add to delivered_packages
     def make_deliveries(self, delivered_packages, distance_calculator):
         print("Making Deliveries: ", self.name)
+        print("------------------------------------------------------------------------")
+        print("Departing HUB @ " + str(self.current_time.strftime('%H:%M:%S')))
         index = 0
         while index < 16:
             #after last package on non-full truck
@@ -57,6 +63,7 @@ class Truck:
                 #update current time
                 travel_time = distance_calculator.time_distance_calculator(self.distance_after_last_package)
                 self.current_time += datetime.timedelta(minutes=travel_time)
+                print("Returning to HUB")
                 return
             else:
                 #get current delivery
@@ -65,6 +72,8 @@ class Truck:
                 travel_time = distance_calculator.time_distance_calculator(current_delivery.distance_from_last_location)
                 self.total_milage += current_delivery.distance_from_last_location
                 self.current_time += datetime.timedelta(minutes=travel_time)
+                #print delivery message
+                print("Delivering package ID {:02d}".format(current_delivery.package_id)  + " @ " + str(self.current_time.strftime('%H:%M:%S')) + " to " + str(current_delivery.address))
                 #update package attributes
                 current_delivery.delivery_time = self.current_time
                 current_delivery.status = "Delivered - " + self.name
@@ -77,6 +86,7 @@ class Truck:
                 index += 1
         #update milage for trip back to hub
         self.total_milage += self.distance_after_last_package
+        print("Returning to HUB")
         #update hub arrival time
         travel_time = distance_calculator.time_distance_calculator(self.distance_after_last_package)
         self.current_time += datetime.timedelta(minutes=travel_time)
@@ -110,7 +120,7 @@ class Truck:
             if warehouse.package_hash[index].status in loaded_or_delivered:
                 pass
             #Case: no notes
-            elif warehouse.package_hash[index].status == "In Warehouse":
+            elif warehouse.package_hash[index].status == "At Hub":
                 self.package_whitelist[priority].append(index)
             #Case: can only be on truck 2
             elif(warehouse.package_hash[index].notes == "Can only be on truck 2" and \
@@ -130,7 +140,7 @@ class Truck:
                 self.package_whitelist[1].append(index)
             index += 1
 
-    #pass time on truck, needed for packages that don't arrive in warehouse until later in day
+    #pass time on truck, needed for packages that don't arrive At Hub until later in day
     def pass_time(self, minutes_to_pass):
         self.current_time += datetime.timedelta(minutes=minutes_to_pass)
 
