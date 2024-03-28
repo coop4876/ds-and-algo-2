@@ -58,6 +58,7 @@ class UserInterface:
                 print("Please make a valid selection")
 
     def print_priority_list(self):
+        #todo fix after changing to self adjusting
         #initialize lists for each priority level
         p0 = []
         p1 = []
