@@ -10,6 +10,7 @@ class Truck:
         self.distance_after_last_package = 0
         self.package_whitelist = []
         self.first_package = []
+        self.truck_capacity = 16
 
     #load packages into truck based on whitelist, selecting the next closest highest priority package for next delivery
     def load_truck(self, distance_calculator, warehouse):
@@ -81,6 +82,7 @@ class Truck:
                 delivery_index = self.current_deliveries[index].package_id - 1
                 delivered_packages[delivery_index] = current_delivery
                 #remove from current deliveries
+                #todo figure out why hashtable size is not decreasing (auto expands during second load)
                 del self.current_deliveries[index]
                 #continue to next loop/package
                 index += 1
@@ -107,7 +109,8 @@ class Truck:
         #set address correction time
         correct_address_time = datetime.datetime(year= 2024, month= 3, day= 15, hour=10, minute=20)
         index = 0
-        while index < len(warehouse.package_hash):
+        #todo switch to iterating over hash table
+        while index < 40:
             #set delivery priority
             if warehouse.package_hash[index].deadline == "9:00 AM":
                 priority = 0
@@ -148,7 +151,7 @@ class Truck:
         index = 0
         trip_milage = 0
         print("------------------------- Packages on ", self.name, "-------------------------")
-        while index < 16:
+        while index < self.truck_capacity:
             if self.current_deliveries[index] == None:
                 index += 1
             else:
