@@ -58,7 +58,7 @@ class HashTable:
     def _resize(self):
         new_capacity = self.capacity * self.resize_factor
         new_values = new_capacity * [None]
-        for value, key in self.items():
+        for key, value in self.items():
             new_index = hash(key) % new_capacity
             new_values[new_index] = value
         self.capacity = new_capacity
@@ -67,4 +67,4 @@ class HashTable:
     def items(self):
         for i in range(len(self.values)):
             if self.values[i] is not None:
-                yield (self.values[i], i)
+                yield (i, self.values[i])
