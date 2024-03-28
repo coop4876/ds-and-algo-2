@@ -43,6 +43,7 @@ class Warehouse:
         print("------------------------- Packages At Hub ------------------------")
         index = 0
         while index < 40:
+            print(index)
             #if status is At Hub or At Hub - Notes, print package
             if self.package_hash[index].status == "At Hub" or self.package_hash[index].status == "At Hub - Notes":
                 print(self.package_hash[index])

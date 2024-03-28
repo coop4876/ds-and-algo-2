@@ -26,11 +26,11 @@ class HashTable:
         value = self.values[self._index(key)]
         return value
         # try:
-        #         self[key]
-        #     except KeyError:
-        #         return False
-        #     else:
-        #         return True
+        #     self[key]
+        # except KeyError:
+        #     return False
+        # else:
+        #     return True
 
 
     def __contains__(self, key):
@@ -40,7 +40,7 @@ class HashTable:
             return False
         else:
             return True
-        
+
     def __iter__(self):
         for value in self.values:
             if value is not [None]:
@@ -58,7 +58,7 @@ class HashTable:
     def _resize(self):
         new_capacity = self.capacity * self.resize_factor
         new_values = new_capacity * [None]
-        for key, value in self.items():
+        for value, key in self.items():
             new_index = hash(key) % new_capacity
             new_values[new_index] = value
         self.capacity = new_capacity
