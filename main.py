@@ -76,8 +76,7 @@ def main():
             print("Truck 2 Time:   ", truck_2.current_time.strftime('%H:%M:%S'))
             print("Total Milage:   ", truck_1.total_milage + truck_2.total_milage)
             print("------------------------------------------------------------------------")
-
-    print("\n".join(final_output))
+        print("\n".join(final_output))
 
     #create list of trucks to pass to user_interface
     trucks = [truck_1, truck_2]

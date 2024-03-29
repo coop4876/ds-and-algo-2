@@ -27,7 +27,7 @@ class Truck:
         self.current_deliveries[0].status = "En Route - " + self.name
         #load subsequent deliveries until truck is full or all packages are loaded
         index = 1
-        while index < 16:
+        while index < self.truck_capacity:
             previous_address = self.current_deliveries[index - 1].address
             next_package = distance_calculator.get_next_package(warehouse.package_hash, previous_address, self)
             #all available packages are loaded, return to hub after
@@ -56,7 +56,7 @@ class Truck:
         print("------------------------------------------------------------------------")
         print("Departing HUB @ " + str(self.current_time.strftime('%H:%M:%S')))
         index = 0
-        while index < 16:
+        while index < self.truck_capacity:
             #after last package on non-full truck
             if self.current_deliveries[index] is None:
                 #update milage
@@ -145,6 +145,7 @@ class Truck:
     def pass_time(self, minutes_to_pass):
         self.current_time += datetime.timedelta(minutes=minutes_to_pass)
 
+    #print packages currently on delivery route
     def print_pending_packages(self):
         index = 0
         trip_milage = 0

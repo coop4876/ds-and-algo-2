@@ -58,7 +58,6 @@ class UserInterface:
                 print("Please make a valid selection")
 
     def print_priority_list(self):
-        #todo fix after changing to self adjusting
         #initialize lists for each priority level
         p0 = []
         p1 = []
@@ -127,20 +126,26 @@ class UserInterface:
 
     #builds and prints status of both trucks at a time specified by the user
     def trucks(self):
+        #get time input from user and store in input_time variable
         input_time = input("Lookup Time (24:00 format): ")
         hours, minutes = map(int, input_time.split(":"))
         input_time = datetime.datetime(year= 2024, month= 3, day= 15, hour=hours, minute=minutes)
+        #iterate for through each truck
         for truck in self.truck_list:
             print("------------------------------------------------------------------------")
             print(truck.name, "at", input_time.strftime('%H:%M:%S'))
+            #iterate through first package list
             for package in truck.first_package:
                 delivered_packages = []
                 en_route_packages = []
                 current_package = self.delivered_packages.delivered_packages[package - 1]
                 index = 0
+                #iterate through truck capacity
                 while index < 16:
+                    #if input time > load time and delivery time, add to delivered list with EoD (delivered) status
                     if current_package.load_time <= input_time and current_package.delivery_time <= input_time:
                         delivered_packages.append(current_package)
+                    #if load time <= input time < delivery time make copy, modify copy with correct status at that time, and append copy to en_route list
                     elif current_package.load_time <= input_time and current_package.delivery_time > input_time:
                         en_route_package = copy.copy(current_package)
                         en_route_package.status = "En Route - " + en_route_package.loaded_on_truck
@@ -150,15 +155,19 @@ class UserInterface:
                     if current_package.next_package_pointer != None:
                         current_package = self.delivered_packages.delivered_packages[current_package.next_package_pointer - 1]
                     index += 1
+                #if there are no en_route packages, this trip was completed so don't output anything
                 if en_route_packages != []:
+                    #if there are no already delivered packages this route, skip printing already delivered header
                     if delivered_packages != []:
                         print("------------------------------------------------------------------------")
                         print("Already delivered this trip:")
                         print("------------------------------------------------------------------------")
+                        #print each package in delivered_packages list on a new line
                         print(*delivered_packages, sep = "\n")
                     print("------------------------------------------------------------------------")
                     print("En Route packages:")
                     print("------------------------------------------------------------------------")
+                    #print each package in en_route_packages list on a new line
                     print(*en_route_packages, sep = "\n")
 
     #prints additional details for each option to user
