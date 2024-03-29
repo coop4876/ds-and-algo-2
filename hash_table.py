@@ -20,18 +20,12 @@ class HashTable:
         if self.size >= self.load_factor_threshold * self.capacity:
             self._resize()
         self.values[self._index(key)] = value
-        self.size += 1
+        if value != None:
+            self.size += 1
 
     def __getitem__(self, key):
         value = self.values[self._index(key)]
         return value
-        # try:
-        #     self[key]
-        # except KeyError:
-        #     return False
-        # else:
-        #     return True
-
 
     def __contains__(self, key):
         try:

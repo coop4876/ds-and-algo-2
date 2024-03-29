@@ -82,7 +82,6 @@ class Truck:
                 delivery_index = self.current_deliveries[index].package_id - 1
                 delivered_packages[delivery_index] = current_delivery
                 #remove from current deliveries
-                #todo figure out why hashtable size is not decreasing (auto expands during second load)
                 del self.current_deliveries[index]
                 #continue to next loop/package
                 index += 1
@@ -109,8 +108,7 @@ class Truck:
         #set address correction time
         correct_address_time = datetime.datetime(year= 2024, month= 3, day= 15, hour=10, minute=20)
         index = 0
-        #todo switch to iterating over hash table
-        while index < 40:
+        while index < warehouse.package_hash.size:
             #set delivery priority
             if warehouse.package_hash[index].deadline == "9:00 AM":
                 priority = 0

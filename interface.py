@@ -65,7 +65,7 @@ class UserInterface:
         p2 = []
         #loop through delivered packages and append to approproiate priority list based on deadline
         index = 0
-        while index < len(self.delivered_packages.delivered_packages):
+        while index < self.delivered_packages.delivered_packages.size:
             if self.delivered_packages.delivered_packages[index].deadline == "9:00 AM":
                 p0.append(self.delivered_packages.delivered_packages[index])
             elif self.delivered_packages.delivered_packages[index].deadline == "10:30 AM":
