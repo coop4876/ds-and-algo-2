@@ -89,6 +89,7 @@ class UserInterface:
 
     #recreates status of single package at user specified time
     def package_time_lookup(self):
+        correct_address_time = datetime.datetime(year= 2024, month= 3, day= 15, hour=10, minute=20)
         #prompt for package ID and convert to int
         package_id = input("Package ID: ")
         package_id = int(package_id)
@@ -109,6 +110,9 @@ class UserInterface:
         #make shallow copy of package to modify
         display_package = copy.copy(self.delivered_packages.delivered_packages[package_id - 1])
         #package delivered, print EoD status (as is)
+        if display_package.package_id == 9 and lookup_time < correct_address_time:
+            display_package.address = "300 State St (84103)"
+            display_package.zip_code = "84103"
         if lookup_time > display_package.delivery_time:
             print(display_package)
         #package loaded, update status with En Route and carrying truck
